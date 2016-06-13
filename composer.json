@@ -1,0 +1,22 @@
+{
+    "name": "flo5581/lubaframework",
+    "description": "Small PHP Framework",
+    "version": "1.0",
+    "authors": [
+        {
+            "name": "Flo Stone"
+        }
+    ],
+    "require": {
+    	
+    },
+    "autoload": {
+        "files": [
+            "globals/functions.php"
+        ],
+        "psr-4": {
+            "Luba\\": "luba/"
+        }
+    }
+}
+
