@@ -15,8 +15,13 @@
             "globals/functions.php"
         ],
         "psr-4": {
-            "Luba\\": "luba/"
-        }
+            "Luba\\Framework\\": "luba/",
+            "Luba\\Exceptions\\": "exceptions/",
+            "Luba\\Interfaces\\": "interfaces/"
+        },
+        "classmap": [
+            "facades/View.php"
+        ]
     }
 }
 
