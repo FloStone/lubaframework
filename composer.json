@@ -1,6 +1,6 @@
 {
     "name": "flo5581/lubaframework",
-    "description": "Small PHP Framework",
+    "description": "Application Package for the Luba Framework",
     "version": "1.0",
     "authors": [
         {
