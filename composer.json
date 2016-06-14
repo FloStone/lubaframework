@@ -17,7 +17,8 @@
         "psr-4": {
             "Luba\\Framework\\": "luba/",
             "Luba\\Exceptions\\": "exceptions/",
-            "Luba\\Interfaces\\": "interfaces/"
+            "Luba\\Interfaces\\": "interfaces/",
+            "Luba\\Traits\\": "traits/"
         },
         "classmap": [
             "facades/View.php"
