@@ -5,9 +5,13 @@ namespace Luba\Framework;
 use Luba\Exceptions\ControllerNotFoundException;
 use Luba\Exceptions\ControllerActionNotFoundException;
 use Luba\Exceptions\HttpNotFoundException;
+use Luba\Interfaces\SingletonInterface;
+use Luba\Traits\Singleton;
 
-class Application
+class Application implements SingletonInterface
 {
+	use Singleton;
+
 	/**
 	 * base path of the application
 	 *
@@ -16,39 +20,32 @@ class Application
 	protected $basePath;
 
 	/**
-	 * Collection of routes
+	 * Router instance
 	 *
-	 * @var array
+	 * @var Router
 	 */
-	protected $routes = [];
+	protected $router;
 
 	/**
-	 * Controller action
+	 * Request instance
 	 *
-	 * @var string
+	 * @var Request
 	 */
-	protected $action;
+	protected $request;
 
 	/**
-	 * Controller
+	 * URL Instance
 	 *
-	 * @var Controller
+	 * @var url
 	 */
-	protected $controller;
+	protected $url;
 
 	/**
-	 * Controller action parameters
+	 * Singleton instance
 	 *
-	 * @param array $params
+	 * @var Application
 	 */
-	protected $params = [];
-
-	/**
-	 * Route to controller binding
-	 *
-	 * @var string
-	 */
-	protected $route;
+	protected static $instance;
 
 	/**
 	 * Initialize class
@@ -57,8 +54,11 @@ class Application
 	 */
 	public function __construct($basepath)
 	{
+		self::setInstance($this);
 		$this->basePath = $basepath;
-		$this->getRoutes();
+		$this->router = new Router();
+		$this->request = new Request;
+		$this->url = new URL;
 	}
 
 	/**
@@ -68,69 +68,8 @@ class Application
 	 */
 	public function run()
 	{
-		$this->router();
-	}
-
-	/**
-	 * Get the registered routes
-	 *
-	 * @return void
-	 */
-	public function getRoutes()
-	{
-		$this->routes = include $this->basePath.'/routes.php';
-	}
-
-	/**
-	 * Route the URL to the bound controller
-	 *
-	 * @return void
-	 * @throws HttpNotFoundException
-	 */
-	public function router()
-	{
-		$params = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
-		$route = explode('?', array_shift($params))[0];
-		$this->route = $route == "" ? '/' : $route;
-
-		if (isset($this->routes[$this->route]))
-		{
-			$this->controller = controller($this->routes[$this->route]);
-
-			if (empty($params) or $params[0] == "")
-			{
-				$this->action = 'index';
-				$this->routeToAction();
-			}
-			else
-			{
-				$this->action = array_shift($params);
-				$this->params = $params;
-				$this->routeToAction();
-			}
-		}
-		else
-			throw new HttpNotFoundException($action);
-	}
-
-	/**
-	 * Route to a given method in a controller
-	 *
-	 * @param string $action
-	 * @param Controller $controller
-	 * @throws ControllerActionNotFoundException
-	 */
-	public function routeToAction()
-	{
-		$action = $this->action;
-
-		if (method_exists($this->controller, $action))
-		{
-			if ($this->controller->actionIsAllowed($action))
-				$this->renderAction(call_user_func_array([$this->controller, $action], $this->params));
-		}
-		else
-			throw new ControllerActionNotFoundException($action, $this->controller);
+		$response = $this->router->make();
+		$this->renderAction($response);
 	}
 
 	/**
@@ -138,13 +77,13 @@ class Application
 	 *
 	 * @return void
 	 */
-	public function renderAction($action)
+	public function renderAction($response)
 	{
-		if (is_string($action))
-			e($action);
-		if ($action instanceof View or $action instanceof \View)
-			e($action);
-		if ($action instanceof Redirect or $action instanceof \Redirect)
+		if (is_string($response))
+			echo $response;
+		if ($response instanceof View or $response instanceof \View)
+			echo $response->render();
+		if ($response instanceof Redirect or $response instanceof \Redirect)
 			return true;
 	}
 

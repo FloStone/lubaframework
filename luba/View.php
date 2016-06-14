@@ -40,6 +40,8 @@ class View
 
 		if (!file_exists($this->template))
 			throw new TemplateNotFoundException($template);
+
+		$this->compileTemplate();
 	}
 
 	/**
@@ -60,13 +62,27 @@ class View
 	 */
 	public function __tostring()
 	{
+		return $this->render();
+	}
+
+	public function render()
+	{
 		ob_start();
 
 		extract($this->variables);
-		$include = include $this->template;
+		$include = include $this->compiled;
 
 		$this->content = ob_get_clean();
 
+		unlink($this->compiled);
+
 		return $this->content;
+	}
+
+	public function compileTemplate()
+	{
+		$compiler = new ViewCompiler($this->template);
+		$compiler->compile();
+		$this->compiled = $compiler->tempName();
 	}
 }

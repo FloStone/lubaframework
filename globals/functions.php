@@ -107,7 +107,7 @@ if (!function_exists('view_path'))
  */
 if (!function_exists('registerApplication'))
 {
-	function register(Application $instance)
+	function registerApplication(Application $instance)
 	{
 		global $application_instnc;
 
@@ -125,9 +125,9 @@ if (!function_exists('app'))
 {
 	function app()
 	{
-		global $application_instnc;
+		//global $application_instnc;
 
-		return $application_instnc;
+		return Luba\Framework\Application::getInstance(); //$application_instnc;
 	}
 }
 
@@ -135,14 +135,23 @@ if (!function_exists('e'))
 {
 	function e($string)
 	{
-		echo $string;
+		echo htmlspecialchars($string);
 	}
 }
 
-if (!function_exists('view'))
+if (!function_exists('str_random'))
 {
-	function view($template, array $variables = [])
+	function str_random($length = 10)
 	{
-		return new View($template, $variables);
+	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	    $charactersLength = strlen($characters);
+	    $randomString = '';
+
+	    for ($i = 0; $i < $length; $i++)
+	    {
+	        $randomString .= $characters[rand(0, $charactersLength - 1)];
+	    }
+
+	    return $randomString;
 	}
 }
