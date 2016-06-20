@@ -70,21 +70,23 @@ class Router
 	public function make()
 	{
 		$url = URL::getInstance();
-		$this->route = $url->controllerActionRoute();
+		$this->route = $url->routeKey();
 		$params = $url->params();
 
 		if (isset($this->routes[$this->route]))
 		{
 			$this->controller = controller($this->routes[$this->route]);
 
-			if (empty($params) or $params[0] == "")
+			$controllerActionRoute = $url->controllerActionRoute();
+
+			if ($controllerActionRoute == "")
 			{
 				$this->action = 'index';
 				return $this->routeToAction();
 			}
 			else
 			{
-				$this->action = array_shift($params);
+				$this->action = $controllerActionRoute;
 				$this->params = $params;
 				return $this->routeToAction();
 			}

@@ -50,4 +50,14 @@ class Controller
 	{
 		return new View($template, $variables);
 	}
+
+	/**
+	 * Redirect to another URL
+	 *
+	 * @return response
+	 */
+	public function redirect($url)
+	{
+		header("Location: $url");
+	}
 }

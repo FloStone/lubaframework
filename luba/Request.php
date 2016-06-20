@@ -4,11 +4,10 @@ namespace Luba\Framework;
 
 use Luba\Interfaces\SingletonInterface;
 use Luba\Traits\Singleton;
-use Luba\Traits\StaticCallable;
 
 class Request implements SingletonInterface
 {
-	use Singleton, StaticCallable;
+	use Singleton;
 
 	/**
 	 * Singleton instance
@@ -82,7 +81,7 @@ class Request implements SingletonInterface
 		$this->method = $server['REQUEST_METHOD'];
 		$this->root = $this->domain . $extra;
 		$this->uri = str_replace($extra == '/' ? '' : $extra, '', $server['REQUEST_URI']);
-		$this->status = $server['REDIRECT_STATUS'];
+		$this->status = isset($server['REDIRECT_STATUS']) ? $server['REDIRECT_STATUS'] : NULL;
 		$this->scheme = $server['REQUEST_SCHEME'];
 		$this->fullRequest = (object)$server;
 	}
@@ -120,5 +119,21 @@ class Request implements SingletonInterface
 	public function scheme()
 	{
 		return $this->scheme;
+	}
+
+	public static function post($index)
+	{
+		if (isset($_POST[$index]))
+			return $_POST[$index];
+		else
+			return NULL;
+	}
+
+	public static function get($index)
+	{
+		if (isset($_GET[$index]))
+			return $_GET[$index];
+		else
+			return NULL;
 	}
 }

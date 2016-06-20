@@ -4,6 +4,7 @@ use Symfony\Component\VarDumper\VarDumper;
 use Flo\MySQL\MySQL;
 use Luba\Framework\Application;
 use Luba\Framework\View;
+use Luba\Framework\URL;
 
 /**
  * Die and dump
@@ -82,6 +83,22 @@ if (!function_exists('public_path'))
 	function public_path($path = NULL)
 	{
 		return base_path('public/') . $path;
+	}
+}
+
+if (!function_exists('asset'))
+{
+	function asset($asset)
+	{
+
+	}
+}
+
+if (!function_exists('url'))
+{
+	function url($uri = NULL)
+	{
+		return URL::getInstance()->make($uri);
 	}
 }
 

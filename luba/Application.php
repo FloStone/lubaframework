@@ -59,6 +59,8 @@ class Application implements SingletonInterface
 		$this->router = new Router();
 		$this->request = new Request;
 		$this->url = new URL;
+
+		Session::start();
 	}
 
 	/**

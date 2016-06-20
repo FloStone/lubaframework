@@ -2,6 +2,8 @@
 
 namespace Luba\Framework;
 
+use Luba\Exceptions\TemplateNotFoundException;
+
 class ViewCompiler
 {
 	protected $template;
@@ -9,29 +11,35 @@ class ViewCompiler
 	protected $compiled;
 
 	protected $patterns = [
-		'/<echo>/',
-		'/<\/echo>/',
-		'/<if(.*)>/',
-		'/<\/if>/',
-		'/<php>/',
-		'/<\/php>/',
-		'/<foreach(.*)>/',
-		'/<\/foreach>/',
-		'/<continue>/',
-		'/<break>/'
+		'/<echo>/',			// echo open
+		'/<\/echo>/',		// echo close
+		'/\$(\$\w*)/',		// echo variable
+		'/<if(.*)>/',		// if open
+		'/<else>/',			// else
+		'/<elseif(.*)>/',	// elseif
+		'/<\/if>/',			// if close
+		'/<php>/',			// php open
+		'/<\/php>/',		// php close
+		'/<foreach(.*)>/',	// foreach open
+		'/<\/foreach>/',	// foreach close
+		'/<continue>/',		// continue
+		'/<break>/',		// break
 	];
 
 	protected $replacements = [
-		'<?php echo ',
-		' ; ?>',
-		'<?php if ($1): ?>',
-		'<?php endif; ?>',
-		'<?php',
-		'?>',
-		'<?php foreach($1): ?>',
-		'<?php endforeach; ?>',
-		'<?php continue; ?>',
-		'<?php break; ?>'
+		'<?php echo ',				// echo open
+		' ; ?>',					// echo close
+		'<?= $1; ?>',				// echo variable
+		'<?php if ($1): ?>',		// if open
+		'<?php else: ?>',			// else
+		'<?php elseif ($1): ?>',	// elseif
+		'<?php endif; ?>',			// if close
+		'<?php',					// php open
+		'?>',						// php close
+		'<?php foreach($1): ?>',	// foreach open
+		'<?php endforeach; ?>',		// foreach close
+		'<?php continue; ?>',		// continue
+		'<?php break; ?>',			// break
 	];
 
 	public function __construct($template)
@@ -42,6 +50,16 @@ class ViewCompiler
 	public function compile()
 	{
 		$file = file_get_contents($this->template);
+
+		$parent = $this->getTemplateParent($file);
+
+		if ($parent)
+		{
+			$parentCompiled = (new View($parent))->render();
+			$file = $this->insertIntoParent($parentCompiled, $file);
+		}
+
+		$file = $this->getTemplateIncludes($file);
 
 		$file = $this->replace($file);
 
@@ -69,5 +87,57 @@ class ViewCompiler
 	public function tempName()
 	{
 		return $this->compiled;
+	}
+
+	public function getTemplateParent($file)
+	{
+		preg_match('/<parent::\w*>/', $file, $matches);
+
+		if (empty($matches))
+			return false;
+
+		$parent = str_replace(['<parent::', '>'], '', $matches[0]);
+		
+		return $parent;
+	}
+
+	public function insertIntoParent($parentCompiled, $file)
+	{
+		preg_match_all('/<insert::(\w*)>/', $parentCompiled, $matches);
+
+		$fillables = $matches[1];
+
+		preg_match_all('/<fill::(\w*)>(.*)<\/fill::\w*>/sU', $file, $fileMatches);
+
+		$inserts = array_combine($fileMatches[1], $fileMatches[2]);
+
+		foreach ($fillables as $fillable)
+		{
+			if (isset($inserts[$fillable]))
+				$parentCompiled = str_replace("<insert::$fillable>", $inserts[$fillable], $parentCompiled);
+		}
+
+		return $parentCompiled;
+	}
+
+	public function getTemplateIncludes($file)
+	{
+		preg_match_all('/<include\s+(.*)>/', $file, $includes);
+
+		$templates = $includes[1];
+
+		foreach ($templates as $template)
+		{
+			$templatePath = view_path(trim(str_replace('.', '/', $template)));
+
+			if (file_exists("$templatePath.lb"))
+				$templateFile = file_get_contents("$templatePath.lb");
+			else
+				throw new TemplateNotFoundException($template);
+
+			$file = preg_replace("/<include\s+$template>/", $templateFile, $file);
+		}
+
+		return $file;
 	}
 }

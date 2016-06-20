@@ -2,13 +2,12 @@
 
 namespace Luba\Framework;
 
-use Luba\Traits\StaticCallable;
 use Luba\Traits\Singleton;
 use Luba\Interfaces\SingletonInterface;
 
 class URL implements SingletonInterface
 {
-	use StaticCallable, Singleton;
+	use Singleton;
 
 	protected $routeKey;
 
@@ -33,10 +32,10 @@ class URL implements SingletonInterface
 			$this->inputs = [];
 		
 		$uri = explode('/', ltrim($urlParts[0], '/'));
-
-		$this->routeKey = array_shift($uri);
+		$routeKey = array_shift($uri);
+		$this->routeKey = $routeKey == "" ? '/' : $routeKey;
 		$controllerAction = array_shift($uri);
-		$this->controllerActionRoute = $controllerAction == NULL ? '/' : $controllerAction;
+		$this->controllerActionRoute = $controllerAction;
 		$this->params = $uri;
 	}
 
@@ -58,5 +57,15 @@ class URL implements SingletonInterface
 	public function inputs()
 	{
 		return $this->inputs;
+	}
+
+	public function make($uri = NULL)
+	{
+		$request = Request::getInstance();
+		$scheme = $request->scheme();
+		$root = $request->root();
+		$uri = rtrim(ltrim($uri, '/'), '/');
+
+		return "$scheme://$root$uri/";
 	}
 }

@@ -28,18 +28,34 @@ class View
 	protected $content;
 
 	/**
+	 * Delete compiled files after usage
+	 *
+	 * @var bool
+	 */
+	protected $deleteCompiled = true;
+
+	/**
 	 * Initialization
 	 *
 	 * @param string $template
 	 * @param array $variables
 	 */
-	public function __construct($template, array $variables = [])
+	public function __construct($template, array $variables = [], $customPath = NULL)
 	{
-		$this->template = view_path(str_replace('.', '/', $template) . '.php');
-		$this->variables = $variables;
-
-		if (!file_exists($this->template))
+		if ($customPath)
+			$template = $customPath.str_replace('.', '/', $template);
+		else
+			$template = view_path(str_replace('.', '/', $template));
+		
+		if (file_exists("$template.lb"))
+			$this->template = "$template.lb";
+		elseif(file_exists("$template.php"))
+			$this->template = "$template.php";
+		else
 			throw new TemplateNotFoundException($template);
+
+		$this->variables = $variables;
+			
 
 		$this->compileTemplate();
 	}
@@ -84,5 +100,15 @@ class View
 		$compiler = new ViewCompiler($this->template);
 		$compiler->compile();
 		$this->compiled = $compiler->tempName();
+	}
+
+	public static function keepCompiledFiles()
+	{
+		self::getInstance()->deleteCompiled(false);
+	}
+
+	public function deleteCompiled($bool)
+	{
+		$this->deleteCompiled = $bool;
 	}
 }

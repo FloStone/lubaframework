@@ -18,7 +18,8 @@
             "Luba\\Framework\\": "luba/",
             "Luba\\Exceptions\\": "exceptions/",
             "Luba\\Interfaces\\": "interfaces/",
-            "Luba\\Traits\\": "traits/"
+            "Luba\\Traits\\": "traits/",
+            "Luba\\Form\\": "form/"
         },
         "classmap": [
             "facades/View.php"
