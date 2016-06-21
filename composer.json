@@ -20,10 +20,7 @@
             "Luba\\Interfaces\\": "interfaces/",
             "Luba\\Traits\\": "traits/",
             "Luba\\Form\\": "form/"
-        },
-        "classmap": [
-            "facades/View.php"
-        ]
+        }
     }
 }
 
