@@ -8,15 +8,49 @@ use Luba\Framework\Validator;
 abstract class FormField
 {
 	use RenderAttributes;
+
+	/**
+	 * Field name
+	 *
+	 * @var string
+	 */
+	protected $name;
 	
+	/**
+	 * Label of the formfield
+	 *
+	 * @var string
+	 */
 	protected $label = NULL;
 
+	/**
+	 * Label attributes
+	 *
+	 * @var array
+	 */
 	protected $labelAttributes = [];
 
+	/**
+	 * Form field attributes
+	 *
+	 * @var array
+	 */
 	protected $attributes = [];
 
+	/**
+	 * Rules for validation
+	 *
+	 * @var array
+	 */
 	protected $validatorAttributes = [];
 
+	/**
+	 * Add a label
+	 *
+	 * @param string $title
+	 * @param array $attributes
+	 * @return this
+	 */
 	public function label($title, array $attributes = [])
 	{
 		$this->label = $title;
@@ -25,6 +59,11 @@ abstract class FormField
 		return $this;
 	}
 
+	/**
+	 * Form field is required
+	 *
+	 * @return thiss
+	 */
 	public function required()
 	{
 		$this->addValidatorAttribute(Validator::REQUIRED);
@@ -32,6 +71,11 @@ abstract class FormField
 		return $this;
 	}
 
+	/**
+	 * Form field must be numeric
+	 *
+	 * @return this
+	 */
 	public function numeric()
 	{
 		$this->addValidatorAttribute(Validator::NUMERIC);
@@ -39,6 +83,12 @@ abstract class FormField
 		return $this;
 	}
 
+	/**
+	 * Form field is required with another field
+	 *
+	 * @param string $requirement
+	 * @return this
+	 */
 	public function requiredWith($requirement)
 	{
 		$this->addValidatorAttribute(Validator::REQUIRED_WITH . $requirement);
@@ -46,6 +96,12 @@ abstract class FormField
 		return $this;
 	}
 
+	/**
+	 * Form field is required without another field
+	 *
+	 * @param string $requirement
+	 * @return this
+	 */
 	public function requiredWithout($requirement)
 	{
 		$this->addValidatorAttribute(Validator::REQUIRED_WITHOUT . $requirement);
@@ -53,6 +109,11 @@ abstract class FormField
 		return $this;
 	}
 
+	/**
+	 * Form field must be an email
+	 *
+	 * @return this
+	 */
 	public function email()
 	{
 		$this->addValidatorAttribute(Validator::EMAIL);
@@ -60,22 +121,42 @@ abstract class FormField
 		return $this;
 	}
 
+	/**
+	 * Add a rule to the validation
+	 *
+	 * @param string $attribute
+	 * @return void
+	 */
 	public function addValidatorAttribute($attribute)
 	{
 		if (!array_search($attribute, $this->validatorAttributes))
 			$this->validatorAttributes[] = $attribute;
 	}
 
-
+	/**
+	 * Get validation rules
+	 *
+	 * @return array
+	 */
 	public function getValidatorAttributes()
 	{
 		return $this->validatorAttributes;
 	}
 
+	/**
+	 * Get the Form field name
+	 *
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
 	}
 
+	/**
+	 * Render out the form field
+	 *
+	 * @return array
+	 */
 	abstract public function render();
 }

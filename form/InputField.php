@@ -6,14 +6,37 @@ use Luba\Framework\Validator;
 
 class InputField extends FormField
 {
+	/**
+	 * Input type
+	 *
+	 * @var string
+	 */
 	protected $type;
 
-	protected $name;
-
+	/**
+	 * Input value
+	 *
+	 * @var string
+	 */
 	protected $value;
 
+	/**
+	 * Other attributes
+	 *
+	 * @var array
+	 */
 	protected $other;
 
+	/**
+	 * Initialization
+	 *
+	 * @param string $type
+	 * @param string $name
+	 * @param string $value
+	 * @param array $attributes
+	 * @param array $other
+	 * @return void
+	 */
 	public function __construct($type, $name, $value = NULL, array $attributes = [], array $other = [])
 	{
 		$this->type = $type;
@@ -23,6 +46,11 @@ class InputField extends FormField
 		$this->other = $other;
 	}
 
+	/**
+	 * Render the Input Field
+	 *
+	 * @return array
+	 */
 	public function render()
 	{
 		$label = $this->label;

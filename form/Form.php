@@ -42,7 +42,7 @@ class Form
 	 *
 	 * @var string
 	 */
-	protected $method = 'GET';
+	protected $method = 'post';
 
 	/**
 	 * Multipart formdata
@@ -59,6 +59,20 @@ class Form
 	protected $attributes = [];
 
 	/**
+	 * Inputs for the form
+	 *
+	 * @var array
+	 */
+	protected $bindings = [];
+
+	/**
+	 * Determine if bound inputs are used
+	 *
+	 * @var bool
+	 */
+	protected $bind = false;
+
+	/**
 	 * Initialization
 	 *
 	 * @param string $action
@@ -69,6 +83,12 @@ class Form
 		$this->attributes = $attributes;
 		$this->templates = defined('FORM_TEMPLATES') ? FORM_TEMPLATES : __DIR__.'/templates/';
 		$this->action = $action;
+
+		if (Session::has('__formerrors'))
+		{
+			$this->bind = true;
+			$this->bindings = Session::get('__forminputs');
+		}
 	}
 
 	/**
@@ -102,6 +122,18 @@ class Form
 	public function template($path)
 	{
 		$this->templates = $path;
+	}
+
+	/**
+	 * Bind inputs to the form
+	 *
+	 * @param array $bindings
+	 * @return void
+	 */
+	public function bind(array $bindings = [])
+	{
+		$this->bind = true;
+		$this->bindings = $bindings;
 	}
 
 	/**
@@ -162,6 +194,19 @@ class Form
 	}
 
 	/**
+	 * Add a submit button
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $attributes
+	 * @return InputField
+	 */
+	public function submit($name, $value, array $attributes = [])
+	{
+		return $this->inputField('submit', $name, $value, $attributes);
+	}
+
+	/**
 	 * Validate form fields
 	 *
 	 * @return bool
@@ -198,6 +243,9 @@ class Form
 	 */
 	public function inputField($type, $name, $value, array $attributes = [], array $other = [])
 	{
+		if ($this->bind)
+			$value = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
+
 		$formfield = new InputField($type, $name, $value, $attributes, $other);
 		$this->fields[] = $formfield;
 
@@ -253,11 +301,17 @@ class Form
 
 		foreach($this->fields as $field)
 		{
+			if (is_string($field))
+			{
+				$rendered[] = $field;
+				continue;
+			}
+			
 			$template = $this->templates.'form.lb';
 			if (file_exists($template))
 			{
 				$arr = $field->render();
-				$error = is_null(Session::get("formerrors")) ? NULL : isset(Session::get('formerrors')[$field->getName()]) ? Session::get('formerrors')[$field->getName()] : NULL;
+				$error = is_null(Session::get("__formerrors")) ? NULL : isset(Session::get('__formerrors')[$field->getName()]) ? Session::get('__formerrors')[$field->getName()] : NULL;
 				
 				$rendered[] = (new View('form', ['label' => $arr['label'], 'field' => $arr['field'], 'error' => $error], $this->templates))->render();
 			}
@@ -265,8 +319,9 @@ class Form
 				return "Template $template does not exist!";
 		}
 
-		$rendered[] = "<input type=\"submit\" id=\"submit\">";
 		$rendered[] = "</form>";
+
+		Session::remove('__formerrors');
 
 		return implode("\r\n", $rendered);
 	}

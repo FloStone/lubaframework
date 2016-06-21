@@ -18,4 +18,20 @@ class Session
 	{
 		$_SESSION[$key] = $value;
 	}
+
+	public static function remove($key)
+	{
+		if (isset($_SESSION[$key]))
+			unset($_SESSION[$key]);
+	}
+
+	public function has($key)
+	{
+		return isset($_SESSION[$key]);
+	}
+
+	public static function destroy()
+	{
+		session_destroy();
+	}
 }

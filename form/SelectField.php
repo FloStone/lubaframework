@@ -4,12 +4,28 @@ namespace Luba\Form;
 
 class SelectField extends FormField
 {
-	protected $name;
-
+	/**
+	 * Select options
+	 *
+	 * @var array
+	 */
 	protected $options = [];
 
+	/**
+	 * Default selected
+	 *
+	 * @var string
+	 */
 	protected $default = NULL;
 
+	/**
+	 * Initialization
+	 *
+	 * @param string $name
+	 * @param array $options
+	 * @param string $default
+	 * @param array $attributes
+	 */
 	public function __construct($name, array $options = [], $default = NULL, array $attributes = [])
 	{
 		$this->name = $name;
@@ -18,6 +34,11 @@ class SelectField extends FormField
 		$this->attributes = $attributes;
 	}
 
+	/**
+	 * Render the Select field
+	 *
+	 * @return array
+	 */
 	public function render()
 	{
 		$name = $this->name;

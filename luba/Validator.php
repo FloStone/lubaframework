@@ -38,26 +38,46 @@ class Validator
 		{
 			foreach ($field->getValidatorAttributes() as $rule)
 			{
-				if (!$this->$rule($field))
+				if (stripos($rule, 'requiredWith:') !== false)
+				{
+					if (!$this->requiredWith($field->getName(), str_replace('requiredWith:', '', $rule)))
+					{
+						$this->passed = false;
+						break;
+					}
+				}
+				elseif(stripos($rule, 'requiredWithout:') !== false)
+				{
+					if (!$this->requiredWithout($field->getName(), str_replace('requiredWithout:', '', $rule)))
+					{
+						$this->passed = false;
+						break;
+					}	
+				}
+				elseif (!$this->$rule($field->getName()))
 				{
 					$this->passed = false;
-					continue;
+					break;
 				}
 			}
+
+			Session::set('__forminputs', $this->postVars);
 		}
 
-		Session::set('formerrors', $this->errors);
+		Session::set('__formerrors', $this->errors);
 
 		return $this->passed;
 	}
 
 	public function required($field)
 	{
-		$postField = $this->postVars[$field->getName()];
+		$postField = $this->getPostField($field);
 		
 		if ($postField == "" or empty($postField) or is_null($postField))
 		{
-			$this->errors[$field->getName()] = "This field is required!";
+			$this->errors[$field] = "This field is required!";
+
+			return false;
 		}
 		else
 			return true;
@@ -65,21 +85,58 @@ class Validator
 
 	public function numeric($field)
 	{
-		
+		$postField = $this->getPostField($field);
+
+		if (!is_numeric($postField))
+		{
+			$this->errors[$field] = "This field must only contain numbers!";
+
+			return false;
+		}
+		else
+			return true;
 	}
 
-	public function requiredWith($field)
+	public function requiredWith($field, $otherfield)
 	{
-		
+		$postField = $this->getPostField($field);
+
+		if (is_null($postField) or $postField == "")
+		{
+			$otherPostField = $this->getPostField($otherfield);
+
+			if (!is_null($otherPostField) && $otherPostField != "")
+			{
+				$this->errors[$field] = "This field is required with $otherfield!";
+
+				return false;
+			}
+		}
+
+		return true;
 	}
 
-	public function requiredWithout($field)
+	public function requiredWithout($field, $otherfield)
 	{
 		
 	}
 
 	public function email($field)
 	{
-		
+		$postField = $this->getPostField($field);
+
+		if (preg_match('/\w+@\w+\.\w+/', $postField))
+			return true;
+		else
+		{
+			$this->errors[$field] = "Please enter a valid email address!";
+
+			return false;
+		}
+	}
+
+	public function getPostField($fieldname)
+	{
+		return $this->postVars[$fieldname];
 	}
 }
