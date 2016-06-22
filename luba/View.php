@@ -90,7 +90,8 @@ class View
 
 		$this->content = ob_get_clean();
 
-		unlink($this->compiled);
+		if ($this->deleteCompiled)
+			unlink($this->compiled);
 
 		return $this->content;
 	}

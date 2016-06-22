@@ -77,12 +77,12 @@ class Request implements SingletonInterface
 		$server = $_SERVER;
 		$extra = str_replace('index.php', '', $server['SCRIPT_NAME']);
 
-		$this->domain = $server['HTTP_HOST'];
-		$this->method = $server['REQUEST_METHOD'];
+		$this->domain = isset($server['HTTP_HOST']) ? $server['HTTP_HOST'] : NULL;
+		$this->method = isset($server['REQUEST_METHOD']) ? $server['REQUEST_METHOD'] : NULL;
 		$this->root = $this->domain . $extra;
-		$this->uri = str_replace($extra == '/' ? '' : $extra, '', $server['REQUEST_URI']);
+		$this->uri = isset($server['REQUEST_URI']) ? str_replace($extra == '/' ? '' : $extra, '', $server['REQUEST_URI']) : NULL;
 		$this->status = isset($server['REDIRECT_STATUS']) ? $server['REDIRECT_STATUS'] : NULL;
-		$this->scheme = $server['REQUEST_SCHEME'];
+		$this->scheme = isset($server['REQUEST_SCHEME']) ? $server['REQUEST_SCHEME'] : NULL;
 		$this->fullRequest = (object)$server;
 	}
 

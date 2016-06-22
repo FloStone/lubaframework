@@ -22,7 +22,7 @@
             "Luba\\Form\\": "form/"
         },
         "classmap": [
-            "facades/View.php"
+            "aliases"
         ]
     }
 }

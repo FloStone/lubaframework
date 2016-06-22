@@ -24,6 +24,7 @@ class ViewCompiler
 		'/<\/foreach>/',	// foreach close
 		'/<continue>/',		// continue
 		'/<break>/',		// break
+		'/<asset\s+(.*)>/'	// asset
 	];
 
 	protected $replacements = [
@@ -40,6 +41,7 @@ class ViewCompiler
 		'<?php endforeach; ?>',		// foreach close
 		'<?php continue; ?>',		// continue
 		'<?php break; ?>',			// break
+		'<?php asset(str_replace(\'.\', \'/\', \'$1\')); ?>'		// asset
 	];
 
 	public function __construct($template)

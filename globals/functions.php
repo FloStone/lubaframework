@@ -90,15 +90,15 @@ if (!function_exists('asset'))
 {
 	function asset($asset)
 	{
-
+		return public_path("assets/$asset");
 	}
 }
 
 if (!function_exists('url'))
 {
-	function url($uri = NULL)
+	function url($uri = NULL, array $params = [])
 	{
-		return URL::getInstance()->make($uri);
+		return URL::getInstance()->make($uri, $params);
 	}
 }
 

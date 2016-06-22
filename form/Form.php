@@ -14,6 +14,12 @@ class Form
 	const PUT = 'PUT';
 	const DELETE = 'DELETE';
 
+	const TYPE_PASSWORD = 'password';
+	const TYPE_HIDDEN = 'hidden';
+	const TYPE_FILE = 'file';
+	const TYPE_CHECKBOX = 'checkbox';
+	const TYPE_TEXT = 'text';
+
 	use RenderAttributes;
 
 	/**
@@ -92,17 +98,6 @@ class Form
 	}
 
 	/**
-	 * Allow or disallow files in form submit
-	 *
-	 * @param bool $files
-	 * @return void
-	 */
-	public function files($files = true)
-	{
-		$this->files = $files;
-	}
-
-	/**
 	 * Set the form method
 	 *
 	 * @param string $method
@@ -146,7 +141,7 @@ class Form
 	 */
 	public function hidden($name, $value, array $attributes = [])
 	{
-		return $this->inputField('hidden', $name, $value, $attributes);
+		return $this->inputField(self::TYPE_HIDDEN, $name, $value, $attributes);
 	}
 
 	/**
@@ -160,7 +155,7 @@ class Form
 	 */
 	public function checkbox($name, $value, $checked = false, array $attributes = [])
 	{
-		return $this->inputField('checkbox', $name, $value, $attributes, $checked ? ['checked' => 'checked'] : []);
+		return $this->inputField(self::TYPE_CHECKBOX, $name, $value, $attributes, $checked ? ['checked' => 'checked'] : []);
 	}
 
 	/**
@@ -173,7 +168,7 @@ class Form
 	 */
 	public function text($name, $value = NULL, array $attributes = [])
 	{
-		return $this->inputField('text', $name, $value, $attributes);
+		return $this->inputField(self::TYPE_TEXT, $name, $value, $attributes);
 	}
 
 	/**
@@ -191,6 +186,34 @@ class Form
 		$this->fields[] = $select;
 
 		return $select;
+	}
+
+	/**
+	 * Add a file field
+	 *
+	 * @param string $name
+	 * @param array $attributes
+	 * @return InputField
+	 */
+	public function file($name, array $attributes = [])
+	{
+		$this->files = true;
+
+		$field = $this->inputField(self::TYPE_FILE, $name, NULL, $attributes);
+
+		return $field;
+	}
+
+	/**
+	 * Add a password field
+	 *
+	 * @param string $name
+	 * @param array $attributes
+	 * @return InputField
+	 */
+	public function password($name, array $attributes = [])
+	{
+		return $this->inputField(self::TYPE_PASSWORD, $name, NULL, $attributes);
 	}
 
 	/**

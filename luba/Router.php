@@ -72,7 +72,7 @@ class Router
 		$url = URL::getInstance();
 		$this->route = $url->routeKey();
 		$params = $url->params();
-
+		
 		if (isset($this->routes[$this->route]))
 		{
 			$this->controller = controller($this->routes[$this->route]);
