@@ -7,6 +7,13 @@ use Luba\Interfaces\SingletonInterface;
 trait Singleton
 {
 	/**
+	 * Singleton instance
+	 *
+	 * @var self
+	 */
+	protected static $instance;
+
+	/**
 	 * Get the instance
 	 *
 	 * @return SingletonInterface

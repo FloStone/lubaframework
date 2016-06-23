@@ -72,6 +72,9 @@ class Router
 		$url = URL::getInstance();
 		$this->route = $url->routeKey();
 		$params = $url->params();
+
+		if (file_exists(public_path($url->uri())) && is_file(public_path($url->uri())))
+			return public_path($url->uri());
 		
 		if (isset($this->routes[$this->route]))
 		{

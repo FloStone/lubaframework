@@ -2,27 +2,73 @@
 
 namespace Luba\Framework;
 
-class Input
-{
-	public static function get($index = NULL)
-	{
-		if (is_null($index))
-			return $_GET;
+use Luba\Traits\Singleton;
+use Luba\Interfaces\SingletonInterface;
 
-		if (isset($_GET[$index]))
-			return $_GET[$index];
+class Input implements SingletonInterface
+{
+	use Singleton;
+
+	protected $getInput = [];
+
+	protected $postInput = [];
+
+	protected $fileInput = [];
+
+	public function __construct()
+	{
+		self::setInstance($this);
+		$this->getInput = $_GET;
+		$this->postInput = array_merge($_POST, $_FILES);
+		$this->fileInput = $_FILES;
+	}
+
+	public function getInput($index = NULL)
+	{
+		if ($index)
+		{
+			if (isset($this->getInput[$index]))
+				return $this->getInput[$index];
+			else
+				return NULL;
+		}
+		else
+			return $this->getInput;
+	}
+
+	public function postInput($index = NULL)
+	{
+		if ($index)
+		{
+			if (isset($this->postInput[$index]))
+				return $this->postInput[$index];
+			else
+				return NULL;
+		}
+		else
+			return $this->postInput;
+	}
+
+	public function getFile($name)
+	{
+		if (isset($this->fileInput[$name]))
+			return new UploadedFile($this->fileInput[$name]);
 		else
 			return NULL;
 	}
 
+	public static function get($index = NULL)
+	{
+		return self::getInstance()->getInput($index);
+	}
+
 	public static function post($index = NULL)
 	{
-		if (is_null($index))
-			return $_POST;
+		return self::getInstance()->postInput($index);
+	}
 
-		if (isset($_POST[$index]))
-			return $_POST[$index];
-		else
-			return NULL;
+	public function file($name)
+	{
+		return self::getInstance()->getFile($name);
 	}
 }

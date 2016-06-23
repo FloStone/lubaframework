@@ -3,6 +3,7 @@
 namespace Luba\Framework;
 
 use Luba\Form\Form;
+use Luba\Form\Label;
 
 class Validator
 {
@@ -36,6 +37,9 @@ class Validator
 	{
 		foreach ($this->fields as $field)
 		{
+			if ($field instanceof Label)
+				continue;
+
 			foreach ($field->getValidatorAttributes() as $rule)
 			{
 				if (stripos($rule, 'requiredWith:') !== false)

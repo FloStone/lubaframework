@@ -82,18 +82,32 @@ if (!function_exists('public_path'))
 {
 	function public_path($path = NULL)
 	{
-		return base_path('public/') . $path;
+		return base_path('public/') . ltrim($path, '/');
 	}
 }
 
+/**
+ * Get an asset
+ *
+ * @param string $asset
+ * @return string
+ */
 if (!function_exists('asset'))
 {
 	function asset($asset)
 	{
-		return public_path("assets/$asset");
+		$asset = ltrim($asset, '/');
+		return rtrim(url("$asset"), '/');
 	}
 }
 
+/**
+ * Create an absolute URL
+ *
+ * @param string $url
+ * @param array $attributes
+ * @return string
+ */
 if (!function_exists('url'))
 {
 	function url($uri = NULL, array $params = [])
@@ -148,6 +162,12 @@ if (!function_exists('app'))
 	}
 }
 
+/**
+ * Echo using escaped strings
+ *
+ * @param string $string
+ * @return string
+ */
 if (!function_exists('e'))
 {
 	function e($string)
@@ -156,6 +176,12 @@ if (!function_exists('e'))
 	}
 }
 
+/**
+ * Create a random string
+ *
+ * @param int $length
+ * @return string
+ */
 if (!function_exists('str_random'))
 {
 	function str_random($length = 10)

@@ -24,13 +24,6 @@ class URL implements SingletonInterface
 	protected $controllerActionRoute;
 
 	/**
-	 * Instance
-	 *
-	 * @var URL
-	 */
-	protected static $instance;
-
-	/**
 	 * Parameters for route action
 	 *
 	 * @var array
@@ -45,6 +38,20 @@ class URL implements SingletonInterface
 	protected $inputs = [];
 
 	/**
+	 * Full URL
+	 *
+	 * @var string
+	 */
+	protected $url;
+
+	/**
+	 * Full URI
+	 *
+	 * @var string
+	 */
+	protected $uri;
+
+	/**
 	 * Initialization
 	 *
 	 * @return void
@@ -54,6 +61,9 @@ class URL implements SingletonInterface
 		self::setInstance($this);
 		
 		$request = Request::getInstance();
+		$this->uri = $request->uri();
+		$this->url = $request->scheme() . "://" . rtrim($request->root(), '/') . $this->uri;
+
 		$urlParts = explode('?', $request->uri());
 
 		if (isset($urlParts[1]))
@@ -132,5 +142,25 @@ class URL implements SingletonInterface
 			$uri = "$uri/";
 
 		return empty($params) ? "$scheme://$root$uri": "$scheme://$root$uri?$params";
+	}
+
+	/**
+	 * Get the full URL
+	 *
+	 * @return string
+	 */
+	public function full()
+	{
+		return $this->url;
+	}
+
+	/**
+	 * Get the full URI
+	 *
+	 * @return string
+	 */
+	public function uri()
+	{
+		return $this->uri;
 	}
 }

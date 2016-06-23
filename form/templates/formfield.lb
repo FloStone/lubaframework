@@ -1,0 +1,13 @@
+<div class="formfield">
+
+	<if $error>
+		<div class="form-error" style="color:red">
+			$$error
+		</div>
+
+	</if>
+
+	$$label
+	$$field
+
+</div>

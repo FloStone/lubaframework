@@ -10,13 +10,6 @@ class Request implements SingletonInterface
 	use Singleton;
 
 	/**
-	 * Singleton instance
-	 *
-	 * @var Request
-	 */
-	protected static $instance;
-
-	/**
 	 * Domain name
 	 *
 	 * @var string

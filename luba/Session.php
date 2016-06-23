@@ -30,6 +30,14 @@ class Session
 		return isset($_SESSION[$key]);
 	}
 
+	public function flush()
+	{
+		foreach($_SESSION as $key => $value)
+		{
+			unset($_SESSION[$key]);
+		}
+	}
+
 	public static function destroy()
 	{
 		session_destroy();

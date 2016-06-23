@@ -41,11 +41,11 @@ class Application implements SingletonInterface
 	protected $url;
 
 	/**
-	 * Singleton instance
+	 * Input instance
 	 *
-	 * @var Application
+	 * @var Input
 	 */
-	protected static $instance;
+	protected $input;
 
 	/**
 	 * Initialize class
@@ -56,9 +56,10 @@ class Application implements SingletonInterface
 	{
 		self::setInstance($this);
 		$this->basePath = $basepath;
-		$this->router = new Router();
+		$this->router = new Router;
 		$this->request = new Request;
 		$this->url = new URL;
+		$this->input = new Input;
 
 		Session::start();
 	}

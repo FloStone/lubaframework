@@ -24,7 +24,7 @@ class ViewCompiler
 		'/<\/foreach>/',	// foreach close
 		'/<continue>/',		// continue
 		'/<break>/',		// break
-		'/<asset\s+(.*)>/'	// asset
+		'/<<(.*)>>/'		// echo php
 	];
 
 	protected $replacements = [
@@ -35,13 +35,13 @@ class ViewCompiler
 		'<?php else: ?>',			// else
 		'<?php elseif ($1): ?>',	// elseif
 		'<?php endif; ?>',			// if close
-		'<?php',					// php open
-		'?>',						// php close
+		'<?php ',					// php open
+		' ?>',						// php close
 		'<?php foreach($1): ?>',	// foreach open
 		'<?php endforeach; ?>',		// foreach close
 		'<?php continue; ?>',		// continue
 		'<?php break; ?>',			// break
-		'<?php asset(str_replace(\'.\', \'/\', \'$1\')); ?>'		// asset
+		'<?= $1; ?>'
 	];
 
 	public function __construct($template)

@@ -251,7 +251,9 @@ class Form
 	 */
 	public function label($name, $value, array $attributes = [])
 	{
-		$this->fields[] = "<label for=\"$name\">$value</label>";
+		$label = new Label($name, $value, $attributes);
+
+		$this->fields[] = $label;
 	}
 
 	/**
@@ -306,21 +308,19 @@ class Form
 		return $this->method;
 	}
 
-	/**
-	 * String representation
-	 *
-	 * @return string
-	 */
-	public function __tostring()
+	public function render()
 	{
 		$rendered = [];
 
 		$attributes = $this->renderAttributes($this->attributes);
-		$files = $this->files ? "enctype=\"multipart/formdata\"" : "";
+		$files = $this->files ? "enctype=\"multipart/form-data\"" : "";
 		$method = "method=\"{$this->method}\"";
 		$action = "action=\"{$this->action}\"";
 
-		$rendered[] = "<form $method $action $files $attributes>";
+		$fields = [];
+
+		$formtemplate = file_exists($this->templates . 'form.lb') ? $this->templates : __DIR__.'/templates/';
+		$formfieldtemplate = file_exists($this->templates . 'formfield.lb') ? $this->templates : __DIR__.'/templates/';
 
 		foreach($this->fields as $field)
 		{
@@ -329,23 +329,30 @@ class Form
 				$rendered[] = $field;
 				continue;
 			}
+
+			$arr = $field->render();
+
+			$session = &Session::get('__formerrors')[$field->getName()];
+
+			$error = is_null(Session::get("__formerrors")) ? NULL : isset($session) ? $session : NULL;
 			
-			$template = $this->templates.'form.lb';
-			if (file_exists($template))
-			{
-				$arr = $field->render();
-				$error = is_null(Session::get("__formerrors")) ? NULL : isset(Session::get('__formerrors')[$field->getName()]) ? Session::get('__formerrors')[$field->getName()] : NULL;
-				
-				$rendered[] = (new View('form', ['label' => $arr['label'], 'field' => $arr['field'], 'error' => $error], $this->templates))->render();
-			}
-			else
-				return "Template $template does not exist!";
+			$fields[] = (new View('formfield', ['label' => $arr['label'], 'field' => $arr['field'], 'error' => $error], $formfieldtemplate))->render();
 		}
 
-		$rendered[] = "</form>";
+		$template = new View('form', compact('method', 'action', 'files', 'attributes', 'fields'), $formtemplate);
 
 		Session::remove('__formerrors');
 
-		return implode("\r\n", $rendered);
+		return $template;
+	}
+
+	/**
+	 * String representation
+	 *
+	 * @return string
+	 */
+	public function __tostring()
+	{
+		return (string)$this->render();
 	}
 }
