@@ -25,12 +25,12 @@ class Session
 			unset($_SESSION[$key]);
 	}
 
-	public function has($key)
+	public static function has($key)
 	{
 		return isset($_SESSION[$key]);
 	}
 
-	public function flush()
+	public static function flush()
 	{
 		foreach($_SESSION as $key => $value)
 		{
