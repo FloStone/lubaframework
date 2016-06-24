@@ -75,7 +75,7 @@ class Request implements SingletonInterface
 		$this->root = $this->domain . $extra;
 		$this->uri = isset($server['REQUEST_URI']) ? str_replace($extra == '/' ? '' : $extra, '', $server['REQUEST_URI']) : NULL;
 		$this->status = isset($server['REDIRECT_STATUS']) ? $server['REDIRECT_STATUS'] : NULL;
-		$this->scheme = isset($server['REQUEST_SCHEME']) ? $server['REQUEST_SCHEME'] : NULL;
+		$this->scheme = isset($server['REQUEST_SCHEME']) ? $server['REQUEST_SCHEME'] : 'http';
 		$this->fullRequest = (object)$server;
 	}
 
