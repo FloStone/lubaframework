@@ -3,6 +3,7 @@
 namespace Luba\Framework;
 
 use Luba\Exceptions\HttpNotFoundException;
+use Luba\Exceptions\ControllerActionNotFoundException;
 
 class Router
 {

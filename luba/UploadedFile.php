@@ -2,20 +2,35 @@
 
 namespace Luba\Framework;
 
-class UploadedFile
+class UploadedFile extends File
 {
-	protected $name;
-
-	protected $extension;
-
-	protected $type;
-
+	/**
+	 * File size
+	 *
+	 * @var int
+	 */
 	protected $size;
 
-	protected $path;
+	/**
+	 * File type
+	 *
+	 * @var string
+	 */
+	protected $type;
 
+	/**
+	 * Original array
+	 *
+	 * @var array
+	 */
 	protected $original = [];
 
+	/**
+	 * Initalization
+	 *
+	 * @param array $file
+	 * @return void
+	 */
 	public function __construct(array $file)
 	{
 		$this->original = $file;
@@ -30,11 +45,24 @@ class UploadedFile
 		$this->name = pathinfo($this->original['name'], PATHINFO_FILENAME);
 	}
 
+	/**
+	 * Rename the file
+	 *
+	 * @param string $name
+	 * @return void
+	 */
 	public function rename($name)
 	{
 		$this->name = $name;
 	}
 
+	/**
+	 * Move the file
+	 *
+	 * @param string destination
+	 * @param string $name
+	 * @return this
+	 */
 	public function move($destination, $name = NULL)
 	{
 		$dest = rtrim($destination, '/') . DIRECTORY_SEPARATOR . (is_null($name) ? $this->name : $name) . "." . $this->extension;
@@ -46,30 +74,61 @@ class UploadedFile
 		return $this;
 	}
 
+	/**
+	 * get the file type
+	 *
+	 * @return string
+	 */
 	public function type()
 	{
 		return $this->type;
 	}
 
+	/**
+	 * Get the file extension
+	 *
+	 * @return string
+	 */
 	public function extension()
 	{
 		return $this->extension;
 	}
 
+	/**
+	 * Get the file size
+	 *
+	 * @return int
+	 */
 	public function size()
 	{
 		return $this->size;
 	}
 
+	/**
+	 * Get the file path
+	 *
+	 * @return string
+	 */
 	public function path()
 	{
 		return $this->path;
 	}
+
+	/**
+	 * Get the original array
+	 *
+	 * @return array
+	 */
 	public function original()
 	{
 		return $this->original;
 	}
 
+	/**
+	 * Get the full name including extension
+	 *
+	 * @return string
+	 */
 	public function fullName()
 	{
 		return "{$this->name}.{$this->extension}";
