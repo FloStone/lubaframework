@@ -25,9 +25,9 @@ class UploadedFile
 		$attr = explode('/', $this->original['type']);
 
 		$this->type = array_shift($attr);
-		$this->extension = array_shift($attr);
+		$this->extension = pathinfo($this->original['name'], PATHINFO_EXTENSION);
 
-		$this->name = str_replace(".{$this->extension}", "", $this->original['name']);
+		$this->name = pathinfo($this->original['name'], PATHINFO_FILENAME);
 	}
 
 	public function rename($name)
@@ -72,6 +72,6 @@ class UploadedFile
 
 	public function fullName()
 	{
-		return $this->name . "." . $this->extension;
+		return "{$this->name}.{$this->extension}";
 	}
 }
