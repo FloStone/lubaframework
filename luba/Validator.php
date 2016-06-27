@@ -31,7 +31,7 @@ class Validator
 		'requiredWithout' => "The %f field is required without %o!"
 	];
 
-	protected $customMessages = [];
+	protected static $customMessages = [];
 
 	public function __construct(Form $form)
 	{
@@ -170,9 +170,14 @@ class Validator
 
 	public function getErrorMessage($rule)
 	{
-		if (isset($this->customMessages[$rule]))
-			return $this->customMessages[$rule];
+		if (isset(self::$customMessages[$rule]))
+			return self::$customMessages[$rule];
 		else
 			return $this->messages[$rule];
+	}
+
+	public static function customMessages(array $messages)
+	{
+		self::$customMessages = $messages;
 	}
 }
