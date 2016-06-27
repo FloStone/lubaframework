@@ -23,6 +23,16 @@ class Validator
 
 	protected $errors = [];
 
+	protected $messages = [
+		'required' => "The %f field is required!",
+		'numeric' => "The %f field must only contain numbers!",
+		'email' => "The %f field must contain a valid email address!",
+		'requiredWith' => "The %f field is required with %o!",
+		'requiredWithout' => "The %f field is required without %o!"
+	];
+
+	protected $customMessages = [];
+
 	public function __construct(Form $form)
 	{
 		$this->form = $form;
@@ -79,7 +89,7 @@ class Validator
 		
 		if ($postField == "" or empty($postField) or is_null($postField))
 		{
-			$this->errors[$field] = "This field is required!";
+			$this->errors[$field] = str_replace('%f', $field , $this->getErrorMessage(self::REQUIRED));
 
 			return false;
 		}
@@ -93,7 +103,7 @@ class Validator
 
 		if (!is_numeric($postField))
 		{
-			$this->errors[$field] = "This field must only contain numbers!";
+			$this->errors[$field] = str_replace('%f', $field, $this->getErrorMessage(self::NUMERIC));
 
 			return false;
 		}
@@ -111,7 +121,7 @@ class Validator
 
 			if (!is_null($otherPostField) && $otherPostField != "")
 			{
-				$this->errors[$field] = "This field is required with $otherfield!";
+				$this->errors[$field] = str_replace(['%f', '%o'], [$field, $otherfield], $this->getErrorMessage(self::REQUIRED_WITH));
 
 				return false;
 			}
@@ -122,7 +132,21 @@ class Validator
 
 	public function requiredWithout($field, $otherfield)
 	{
-		
+		$postField = $this->getPostField($field);
+
+		if (is_null($postField) or $postField == "")
+		{
+			$otherPostField = $this->getPostField($otherfield);
+
+			if (is_null($otherPostField) && $otherPostField == "")
+			{
+				$this->errors[$field] = str_replace(['%f', '%o'], [$field, $otherfield], $this->getErrorMessage(self::REQUIRED_WITHOUT));
+
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public function email($field)
@@ -133,7 +157,7 @@ class Validator
 			return true;
 		else
 		{
-			$this->errors[$field] = "Please enter a valid email address!";
+			$this->errors[$field] = str_replace('%f', $field, $this->getErrorMessage(self::EMAIL));
 
 			return false;
 		}
@@ -142,5 +166,13 @@ class Validator
 	public function getPostField($fieldname)
 	{
 		return $this->postVars[$fieldname];
+	}
+
+	public function getErrorMessage($rule)
+	{
+		if (isset($this->customMessages[$rule]))
+			return $this->customMessages[$rule];
+		else
+			return $this->messages[$rule];
 	}
 }
