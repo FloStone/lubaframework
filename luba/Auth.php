@@ -2,11 +2,13 @@
 
 namespace Luba\Framework;
 
+use Flo\MySQL\MySQLResult;
+
 class Auth
 {
 	public static function login($username, $password)
 	{
-		$user = sql()->table(AUTH_TABLE)->select()->where(AUTH_USERNAME_COLUMN, addslashes($username))->where(AUTH_PASSWORD_COLUMN, static::hash($password))->get()->first();
+		$user = sql()->table(AUTH_TABLE)->select()->where(AUTH_USERNAME_COLUMN, addslashes($username))->where(AUTH_PASSWORD_COLUMN, static::hash($password))->first();
 
 		if ($user)
 		{
