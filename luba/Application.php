@@ -56,10 +56,10 @@ class Application implements SingletonInterface
 	{
 		self::setInstance($this);
 		$this->basePath = $basepath;
-		$this->router = new Router;
 		$this->request = new Request;
 		$this->url = new URL;
 		$this->input = new Input;
+		$this->router = new Router\Router;
 
 		Session::start();
 	}
@@ -98,5 +98,10 @@ class Application implements SingletonInterface
 	public function basePath()
 	{
 		return $this->basePath;
+	}
+
+	public function url()
+	{
+		return $this->url;
 	}
 }

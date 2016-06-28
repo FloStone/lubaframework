@@ -21,7 +21,7 @@ class URL implements SingletonInterface
 	 *
 	 * @var string
 	 */
-	protected $controllerActionRoute;
+	protected $controllerAction;
 
 	/**
 	 * Parameters for route action
@@ -61,7 +61,7 @@ class URL implements SingletonInterface
 		self::setInstance($this);
 		
 		$request = Request::getInstance();
-		$this->uri = $request->uri();
+		$this->uri = rtrim($request->uri(), '/') . "/";
 		$this->url = $request->scheme() . "://" . rtrim($request->root(), '/') . $this->uri;
 
 		$urlParts = explode('?', $request->uri());
@@ -76,7 +76,7 @@ class URL implements SingletonInterface
 
 		$this->routeKey = $routeKey == "" ? '/' : $routeKey;
 		$controllerAction = array_shift($uri);
-		$this->controllerActionRoute = $controllerAction;
+		$this->controllerAction = $controllerAction;
 		$this->params = $uri;
 	}
 
@@ -95,9 +95,9 @@ class URL implements SingletonInterface
 	 *
 	 * @return string
 	 */
-	public function controllerActionRoute()
+	public function controllerAction()
 	{
-		return $this->controllerActionRoute;
+		return $this->controllerAction;
 	}
 
 	/**
