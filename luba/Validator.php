@@ -4,6 +4,7 @@ namespace Luba\Framework;
 
 use Luba\Form\Form;
 use Luba\Form\Label;
+use Luba\Exceptions\TokenMismatchException;
 
 class Validator
 {
@@ -28,7 +29,8 @@ class Validator
 		'numeric' => "The %f field must only contain numbers!",
 		'email' => "The %f field must contain a valid email address!",
 		'requiredWith' => "The %f field is required with %o!",
-		'requiredWithout' => "The %f field is required without %o!"
+		'requiredWithout' => "The %f field is required without %o!",
+		'tokenMismatch' => "Token mismatch! Please try again."
 	];
 
 	protected static $customMessages = [];
@@ -45,6 +47,9 @@ class Validator
 
 	public function run()
 	{
+		if (Request::is('post'))
+			$this->validateToken();
+
 		foreach ($this->fields as $field)
 		{
 			if ($field instanceof Label)
@@ -179,5 +184,22 @@ class Validator
 	public static function customMessages(array $messages)
 	{
 		self::$customMessages = $messages;
+	}
+
+	public function validateToken()
+	{
+		$sToken = Session::get('__formtoken');
+		
+		$fToken = Input::post('_token');
+
+		if ($fToken)
+		{
+			if ($fToken == $sToken)
+				return true;
+		}
+
+		$this->passed = false;
+
+		$this->errors['_token'] = $this->getErrorMessage('tokenMismatch');
 	}
 }

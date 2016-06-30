@@ -71,7 +71,7 @@ class Request implements SingletonInterface
 		$extra = str_replace('index.php', '', $server['SCRIPT_NAME']);
 
 		$this->domain = isset($server['HTTP_HOST']) ? $server['HTTP_HOST'] : NULL;
-		$this->method = isset($server['REQUEST_METHOD']) ? $server['REQUEST_METHOD'] : NULL;
+		$this->method = isset($server['REQUEST_METHOD']) ? strtolower($server['REQUEST_METHOD']) : NULL;
 		$this->root = $this->domain . $extra;
 		$this->uri = isset($server['REQUEST_URI']) ? str_replace($extra == '/' ? '' : $extra, '', $server['REQUEST_URI']) : NULL;
 		$this->status = isset($server['REDIRECT_STATUS']) ? $server['REDIRECT_STATUS'] : NULL;
@@ -128,5 +128,10 @@ class Request implements SingletonInterface
 			return $_GET[$index];
 		else
 			return NULL;
+	}
+
+	public static function is($method)
+	{
+		return self::getInstance()->method() == $method;
 	}
 }

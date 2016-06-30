@@ -9,10 +9,10 @@ use Luba\Framework\Session;
 
 class Form
 {
-	const GET = 'GET';
-	const POST = 'POST';
-	const PUT = 'PUT';
-	const DELETE = 'DELETE';
+	const GET = 'get';
+	const POST = 'post';
+	const PUT = 'put';
+	const DELETE = 'delete';
 
 	const TYPE_PASSWORD = 'password';
 	const TYPE_HIDDEN = 'hidden';
@@ -199,9 +199,7 @@ class Form
 	{
 		$this->files = true;
 
-		$field = $this->inputField(self::TYPE_FILE, $name, NULL, $attributes);
-
-		return $field;
+		return $this->inputField(self::TYPE_FILE, $name, NULL, $attributes);		
 	}
 
 	/**
@@ -308,8 +306,16 @@ class Form
 		return $this->method;
 	}
 
+	/**
+	 * Render the form
+	 *
+	 * @return View
+	 */
 	public function render()
 	{
+		if ($this->method == self::POST)
+			$this->makeToken();
+
 		$rendered = [];
 
 		$attributes = $this->renderAttributes($this->attributes);
@@ -354,5 +360,12 @@ class Form
 	public function __tostring()
 	{
 		return (string)$this->render();
+	}
+
+	public function makeToken()
+	{
+		$token = str_random(9);
+		Session::set('__formtoken', $token);
+		$field = $this->inputField(self::TYPE_HIDDEN, '_token', $token);
 	}
 }
