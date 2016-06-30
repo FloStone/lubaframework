@@ -72,7 +72,7 @@ class Route
 
 			$uri = URL::getInstance()->uri();
 			$this->method = URL::getInstance()->controllerAction();
-			$this->params = URL::getInstance()->params();
+			$this->parameters = URL::getInstance()->params();
 		}
 	}
 
