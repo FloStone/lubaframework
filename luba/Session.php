@@ -42,4 +42,9 @@ class Session
 	{
 		session_destroy();
 	}
+
+	public static function all()
+	{
+		return $_SESSION;
+	}
 }

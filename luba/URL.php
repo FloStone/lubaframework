@@ -52,6 +52,13 @@ class URL implements SingletonInterface
 	protected $uri;
 
 	/**
+	 * Previous URL
+	 *
+	 * @var string
+	 */
+	protected $previous;
+
+	/**
 	 * Initialization
 	 *
 	 * @return void
