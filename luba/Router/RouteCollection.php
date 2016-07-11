@@ -50,7 +50,7 @@ class RouteCollection extends Collection
 		foreach ($this->data[$type] as $url => $action)
 		{
 			$pattern = str_replace('/', '\/', $url);
-			$match = preg_match("/$pattern/", $key);
+			$match = preg_match("/^$pattern$/", $key);
 			
 			if ($match)
 				return $action;
