@@ -113,23 +113,6 @@ if (!function_exists('view_path'))
 }
 
 /**
- * Register the application
- *
- * @param Luba\Framework\Application $instance
- * @return void
- */
-if (!function_exists('registerApplication'))
-{
-	function registerApplication(Application $instance)
-	{
-		global $application_instnc;
-
-		if (!$application_instnc)
-			$application_instnc = $instance;
-	}
-}
-
-/**
  * Return the Application instance
  *
  * @return Luba\Framework\Applicatio
@@ -176,21 +159,5 @@ if (!function_exists('str_random'))
 	    }
 
 	    return $randomString;
-	}
-}
-
-/**
- * Create a form token
- *
- * @return string
- */
-if (!function_exists('form_token'))
-{
-	function form_token()
-	{
-		$token = str_random(9);
-		Session::set('__formtoken', $token);
-
-		return $token;
 	}
 }

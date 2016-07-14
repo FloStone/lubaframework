@@ -278,6 +278,19 @@ class Form
 	}
 
 	/**
+	 * Generate a form token
+	 *
+	 * @return string
+	 */
+	public static function token()
+	{
+		$token = str_random(9);
+		Session::set('__formtoken', $token);
+
+		return $token;
+	}
+
+	/**
 	 * Set the form action
 	 *
 	 * @param string $action
@@ -361,9 +374,14 @@ class Form
 		return (string)$this->render();
 	}
 
+	/**
+	 * Add a token field
+	 *
+	 * @return void
+	 */
 	public function makeTokenField()
 	{
-		$token = Session::get('__formtoken') ?: form_token();
+		$token = Session::get('__formtoken') ?: self::token();
 		$this->inputField('hidden', '_token', $token);
 	}
 }
