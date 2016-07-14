@@ -95,8 +95,6 @@ class Form
 			$this->bind = true;
 			$this->bindings = Session::get('__forminputs');
 		}
-
-		$this->makeTokenField();
 	}
 
 	/**
@@ -268,7 +266,7 @@ class Form
 	 */
 	public function inputField($type, $name, $value, array $attributes = [], array $other = [])
 	{
-		if ($this->bind)
+		if ($this->bind && $name != '_token')
 			$value = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
 
 		$formfield = new InputField($type, $name, $value, $attributes, $other);
@@ -328,6 +326,7 @@ class Form
 	 */
 	public function render()
 	{
+		$this->makeTokenField();
 		$rendered = [];
 
 		$attributes = $this->renderAttributes($this->attributes);
@@ -381,7 +380,7 @@ class Form
 	 */
 	public function makeTokenField()
 	{
-		$token = Session::get('__formtoken') ?: self::token();
+		$token = self::token();
 		$this->inputField('hidden', '_token', $token);
 	}
 }
