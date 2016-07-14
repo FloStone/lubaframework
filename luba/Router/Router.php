@@ -128,7 +128,7 @@ class Router
 				return call_user_func_array([$controller, $action->method()], $action->params());
 		}
 		else
-			throw new ControllerActionNotFoundException($action, $controller);
+			throw new ControllerActionNotFoundException($action->method(), $controller);
 	}
 
 	public function routeCallback(Route $action)

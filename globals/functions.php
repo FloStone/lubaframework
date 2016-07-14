@@ -26,24 +26,6 @@ if (!function_exists('dd'))
 }
 
 /**
- * Make an SQL statement
- *
- * @return Flo\MySQL\MySQL
- */
-if (!function_exists('sql'))
-{
-	function sql()
-	{
-		global $mysql_instnc;
-		
-		if (!$mysql_instnc)
-			$mysql_instnc = MySQL::connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-
-		return $mysql_instnc;
-	}
-}
-
-/**
  * Get a Controller instance
  *
  * @param string $name
@@ -156,9 +138,7 @@ if (!function_exists('app'))
 {
 	function app()
 	{
-		//global $application_instnc;
-
-		return Luba\Framework\Application::getInstance(); //$application_instnc;
+		return Luba\Framework\Application::getInstance();
 	}
 }
 
