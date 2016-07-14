@@ -198,3 +198,19 @@ if (!function_exists('str_random'))
 	    return $randomString;
 	}
 }
+
+/**
+ * Create a form token
+ *
+ * @return string
+ */
+if (!function_exists('form_token'))
+{
+	function form_token()
+	{
+		$token = str_random(9);
+		Session::set('__formtoken', $token);
+
+		return $token;
+	}
+}

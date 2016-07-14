@@ -201,5 +201,7 @@ class Validator
 		$this->passed = false;
 
 		$this->errors['_token'] = $this->getErrorMessage('tokenMismatch');
+
+		Session::remove('__formtoken');
 	}
 }

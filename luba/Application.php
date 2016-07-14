@@ -85,7 +85,11 @@ class Application implements SingletonInterface
 		if (is_string($response))
 			echo $response;
 		if ($response instanceof View or $response instanceof \View)
-			echo $response->render();
+		{
+
+			$rendered = $response->render();
+			echo ViewCompiler::cleanUp($rendered);
+		}
 		if ($response instanceof Redirect or $response instanceof \Redirect)
 			return true;
 	}

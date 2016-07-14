@@ -40,7 +40,7 @@ class View
 	 * @param string $template
 	 * @param array $variables
 	 */
-	public function __construct($template, array $variables = [], $customPath = NULL)
+	public function __construct($template, array $variables = [], $customPath = NULL, $compileVars = false)
 	{
 		if ($customPath)
 			$template = $customPath.str_replace('.', '/', $template);
@@ -54,8 +54,10 @@ class View
 		else
 			throw new TemplateNotFoundException($template);
 
-		$this->variables = $variables;
-			
+		if ($compileVars)
+			$this->variables = ViewCompiler::compileVariables($variables);
+		else
+			$this->variables = $variables;
 
 		$this->compileTemplate();
 	}

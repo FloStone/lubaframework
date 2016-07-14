@@ -10,7 +10,7 @@ class ViewCompiler
 
 	protected $compiled;
 
-	protected $patterns = [
+	protected static $patterns = [
 		'/<echo>/',			// echo open
 		'/<\/echo>/',		// echo close
 		'/\$(\$\w*)/',		// echo variable
@@ -27,7 +27,7 @@ class ViewCompiler
 		'/<<(.*)>>/'		// echo php
 	];
 
-	protected $replacements = [
+	protected static $replacements = [
 		'<?php echo ',				// echo open
 		' ; ?>',					// echo close
 		'<?= $1; ?>',				// echo variable
@@ -75,7 +75,7 @@ class ViewCompiler
 
 	public function replace($file)
 	{
-		$file = preg_replace($this->patterns, $this->replacements, $file);
+		$file = preg_replace(self::$patterns, self::$replacements, $file);
 
 		if (file_exists(base_path('config/compilerRules.php')))
 		{
@@ -141,5 +141,33 @@ class ViewCompiler
 		}
 
 		return $file;
+	}
+
+	public static function cleanUp($view)
+	{
+
+		preg_match_all('/<insert::(\w*)>/', $view, $matches);
+		
+		foreach ($matches[0] as $match)
+		{
+			$view = str_replace($match, '', $view);
+		}
+
+		return $view;
+	}
+
+	public static function compileVariables(array $variables)
+	{
+		$compiled = [];
+
+		foreach ($variables as $variable)
+		{
+			if (is_string($variable))
+				$return[] = (new self(NULL))->replace($variable);
+			else
+				$return[] = $variable;
+		}
+
+		return $compiled;
 	}
 }
