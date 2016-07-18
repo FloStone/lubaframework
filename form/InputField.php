@@ -56,6 +56,8 @@ class InputField extends FormField
 		$label = $this->label;
 		$type = $this->type;
 		$name = $this->name;
+		if (is_array($this->value))
+			dd($this->value);
 		$value = $this->value ? "value=\"{$this->value}\"" : "";
 		$attributes = $this->renderAttributes($this->attributes);
 		$other = $this->renderAttributes($this->other);

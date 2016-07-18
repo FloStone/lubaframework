@@ -170,7 +170,7 @@ class Validator
 
 	public function getPostField($fieldname)
 	{
-		return $this->postVars[$fieldname];
+		return Input::post($fieldname);
 	}
 
 	public function getErrorMessage($rule)

@@ -199,7 +199,7 @@ class Form
 	{
 		$this->files = true;
 
-		return $this->inputField(self::TYPE_FILE, $name, NULL, $attributes);		
+		return $this->inputField(self::TYPE_FILE, $name, NULL, $attributes, [], true);		
 	}
 
 	/**
@@ -264,9 +264,9 @@ class Form
 	 * @param array $other
 	 * @return InputField
 	 */
-	public function inputField($type, $name, $value, array $attributes = [], array $other = [])
+	public function inputField($type, $name, $value, array $attributes = [], array $other = [], $nobind = false)
 	{
-		if ($this->bind && $name != '_token')
+		if ($this->bind && !$nobind)
 			$value = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
 
 		$formfield = new InputField($type, $name, $value, $attributes, $other);
@@ -381,6 +381,6 @@ class Form
 	public function makeTokenField()
 	{
 		$token = self::token();
-		$this->inputField('hidden', '_token', $token);
+		$this->inputField('hidden', '_token', $token, [], [], true);
 	}
 }
