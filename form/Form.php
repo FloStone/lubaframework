@@ -139,7 +139,7 @@ class Form
 	 * @param array $attributes
 	 * @return InputField
 	 */
-	public function hidden($name, $value, array $attributes = [])
+	public function hidden($name, $value = NULL, array $attributes = [])
 	{
 		return $this->inputField(self::TYPE_HIDDEN, $name, $value, $attributes);
 	}
@@ -153,7 +153,7 @@ class Form
 	 * @param array $attributes
 	 * @return InputField
 	 */
-	public function checkbox($name, $value, $checked = false, array $attributes = [])
+	public function checkbox($name, $value = NULL, $checked = false, array $attributes = [])
 	{
 		return $this->inputField(self::TYPE_CHECKBOX, $name, $value, $attributes, $checked ? ['checked' => 'checked'] : []);
 	}
@@ -222,7 +222,7 @@ class Form
 	 * @param array $attributes
 	 * @return InputField
 	 */
-	public function submit($name, $value, array $attributes = [])
+	public function submit($name, $value = NULL, array $attributes = [])
 	{
 		return $this->inputField('submit', $name, $value, $attributes);
 	}
@@ -247,7 +247,7 @@ class Form
 	 * @param array $attributes
 	 * @return void
 	 */
-	public function label($name, $value, array $attributes = [])
+	public function label($name, $value = NULL, array $attributes = [])
 	{
 		$label = new Label($name, $value, $attributes);
 
@@ -264,7 +264,7 @@ class Form
 	 * @param array $other
 	 * @return InputField
 	 */
-	public function inputField($type, $name, $value, array $attributes = [], array $other = [], $nobind = false)
+	public function inputField($type, $name, $value = NULL, array $attributes = [], array $other = [], $nobind = false)
 	{
 		if ($this->bind && !$nobind)
 			$value = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
