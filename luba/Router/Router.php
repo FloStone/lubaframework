@@ -78,7 +78,6 @@ class Router
 		// Get the URL isntance
 		$url = URL::getInstance();
 		$uri = explode('/', rtrim(ltrim($url->uri(), '/'), '/'));
-		
 		// Return a public file or asset if exists
 		if (file_exists(public_path($url->uri())) && is_file(public_path($url->uri())))
 			return public_path($url->uri());
