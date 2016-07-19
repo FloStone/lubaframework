@@ -68,6 +68,7 @@ class URL implements SingletonInterface
 		self::setInstance($this);
 		
 		$request = Request::getInstance();
+
 		$this->uri = rtrim($request->uri(), '/') . "/";
 		$this->url = $request->scheme() . "://" . rtrim($request->root(), '/') . $this->uri;
 
@@ -143,9 +144,8 @@ class URL implements SingletonInterface
 		$scheme = $request->scheme();
 		$root = $request->root();
 		$uri = rtrim(ltrim($uri, '/'), '/');
-		if ($uri == '/')
-			$uri = "";
-		else
+
+		if ($uri != '')
 			$uri = "$uri/";
 
 		return empty($params) ? "$scheme://$root$uri": "$scheme://$root$uri?$params";
