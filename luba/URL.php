@@ -78,8 +78,8 @@ class URL implements SingletonInterface
 			parse_str($urlParts[1], $this->inputs);
 		else
 			$this->inputs = [];
-		
 		$uri = explode('/', ltrim($urlParts[0], '/'));
+        $this->uri = $urlParts[0];
 		$routeKey = array_shift($uri);
 
 		$this->routeKey = $routeKey == "" ? '/' : $routeKey;
