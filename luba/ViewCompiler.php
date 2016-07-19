@@ -14,7 +14,7 @@ class ViewCompiler
 		'/<echo>/',			// echo open
 		'/<\/echo>/',		// echo close
 		'/\$(\$\w*)/',		// echo variable
-		'/<if(.*)>/',		// if open
+		'/<if (.*)>/',		// if open
 		'/<else>/',			// else
 		'/<elseif(.*)>/',	// elseif
 		'/<\/if>/',			// if close
