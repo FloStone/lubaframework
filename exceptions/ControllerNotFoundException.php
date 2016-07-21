@@ -6,7 +6,7 @@ class ControllerNotFoundException extends \Exception
 {
 	public function __construct($controller)
 	{
-		$dir = 
+		http_response_code(500);
 		parent::__construct("Class $controller not found!");
 	}
 }
