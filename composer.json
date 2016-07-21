@@ -9,7 +9,7 @@
     ],
     "require": {
         "symfony/var-dumper": "3.0.*",
-        "Flo5581/mysql-plainphp": "dev-master"
+        "Flo5581/mysql": "dev-master"
     },
     "autoload": {
         "files": [
