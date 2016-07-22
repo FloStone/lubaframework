@@ -23,20 +23,20 @@ class Input implements SingletonInterface
 		$this->fileInput = $_FILES;
 	}
 
-	public function getInput($index = NULL)
+	public function getInput($index = NULL, $default = NULL)
 	{
 		if ($index)
 		{
 			if (isset($this->getInput[$index]))
 				return $this->getInput[$index];
 			else
-				return NULL;
+				return $default;
 		}
 		else
 			return $this->getInput;
 	}
 
-	public function postInput($index = NULL)
+	public function postInput($index = NULL, $default = NULL)
 	{
 		if ($index)
 		{
@@ -46,36 +46,36 @@ class Input implements SingletonInterface
 			if (isset($this->postInput[$index]))
 				return $this->postInput[$index];
 			else
-				return NULL;
+				return $default;
 		}
 		else
 			return $this->postInput;
 	}
 
-	public function getFile($name)
+	public function getFile($name, $default = NULL)
 	{
 		if (isset($this->fileInput[$name]))
 		{
 			if ($this->fileInput[$name]['tmp_name'] != "")
 				return new UploadedFile($this->fileInput[$name]);
 			else
-				return NULL;
+				return $default;
 		}
 		else
-			return NULL;
+			return $default;
 	}
 
-	public static function get($index = NULL)
+	public static function get($index = NULL, $default = NULL)
 	{
-		return self::getInstance()->getInput($index);
+		return self::getInstance()->getInput($index, $default);
 	}
 
-	public static function post($index = NULL)
+	public static function post($index = NULL, $default = NULL)
 	{
 		return self::getInstance()->postInput($index);
 	}
 
-	public static function file($name)
+	public static function file($name, $default = NULL)
 	{
 		return self::getInstance()->getFile($name);
 	}
