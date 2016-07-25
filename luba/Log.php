@@ -11,7 +11,7 @@ class Log
 
 		$name = date("Y-m-d_H-i-s") . '.log';
 
-		dd(file_put_contents(base_path("storage/logs/$name"), $content));
+		file_put_contents(base_path("storage/logs/$name"), $content);
 	}
 
 	public static function exception($exception)
