@@ -1,6 +1,6 @@
 <?php
 
-$files = glob(base_path('storage/temp/*'));
+$files = glob(base_path('storage/logs/*'));
 
 foreach ($files as $file)
 {

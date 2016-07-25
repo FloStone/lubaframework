@@ -66,7 +66,7 @@ class ViewCompiler
 		$file = $this->replace($file);
 
 		$filename = str_random(15);
-		$path = base_path("temp/$filename");
+		$path = base_path("storage/temp/$filename");
 
 		file_put_contents($path, $file);
 

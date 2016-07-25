@@ -6,15 +6,15 @@ class Log
 {
 	public static function write($content)
 	{
-		if (!is_dir(base_dir('logs')))
-			mkdir(base_dir('logs'));
+		if (!is_dir(base_path('storage/logs')))
+			mkdir(base_path('storage/logs'));
 
-		$name = date("Y-m-dTH_i_s") . '.log';
+		$name = date("Y-m-d_H-i-s") . '.log';
 
-		file_put_contents(base_dir("logs/$name"), $content);
+		dd(file_put_contents(base_path("storage/logs/$name"), $content));
 	}
 
-	public static function exception(Exception $exception)
+	public static function exception($exception)
 	{
 		static::write($exception->getTraceAsString());
 	}
