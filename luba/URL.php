@@ -73,6 +73,9 @@ class URL implements SingletonInterface
 		parse_str(parse_url($this->url, PHP_URL_QUERY), $this->inputs);
 		$this->uri = str_replace(str_replace("{$request->domain()}/" , '', $request->root()), '', ltrim(parse_url($this->url, PHP_URL_PATH), '/'));
 
+		if ($this->uri == "")
+			$this->uri = "/";
+
 		$uri = explode('/', ltrim($this->uri, '/'));
 		$routeKey = array_shift($uri);
 		

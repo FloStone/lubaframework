@@ -86,7 +86,7 @@ class Router
 		// Return a public file or asset if exists
 		if (file_exists(public_path($url->uri())) && is_file(public_path($url->uri())))
 			return public_path($url->uri());
-
+		
 		// Controller binding
 		$action = $this->routeCollection->findController($url->routeKey());
 
