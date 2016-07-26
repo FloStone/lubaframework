@@ -54,6 +54,11 @@ class Application implements SingletonInterface
 	 */
 	public function __construct($basepath)
 	{
+		if (class_exists(Luba\ExceptionHandler::class))
+			set_exception_handler([new Luba\ExceptionHandler, 'handle']);
+		else
+			set_exception_handler([$this, 'handleException']);
+
 		self::setInstance($this);
 		$this->basePath = $basepath;
 		$this->request = new Request;
@@ -107,5 +112,12 @@ class Application implements SingletonInterface
 	public function url()
 	{
 		return $this->url;
+	}
+
+	public function handleException($exception)
+	{
+		Log::exception($exception);
+		echo $exception->getMessage();
+		die;
 	}
 }

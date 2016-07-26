@@ -22,12 +22,12 @@ class RouteCollection extends Collection
 
 	public function addAction(Route $action)
 	{
-		$this->data['actions'][$action->fullUri()] = $action;
+		$this->data['actions'][$action->uri()] = $action;
 	}
 
 	public function addCallback(Route $callback)
 	{
-		$this->data['callbacks'][$callback->fullUri()] = $callback;
+		$this->data['callbacks'][$callback->uri()] = $callback;
 	}
 
 	public function findController($key)

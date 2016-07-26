@@ -69,19 +69,13 @@ class URL implements SingletonInterface
 		
 		$request = Request::getInstance();
 
-		$this->uri = rtrim($request->uri(), '/') . "/";
-		$this->url = $request->scheme() . "://" . rtrim($request->root(), '/') . $this->uri;
+		$this->url = $request->scheme() . '://' . $request->root() . ltrim($request->uri(), '/');
+		parse_str(parse_url($this->url, PHP_URL_QUERY), $this->inputs);
+		$this->uri = str_replace(str_replace("{$request->domain()}/" , '', $request->root()), '', ltrim(parse_url($this->url, PHP_URL_PATH), '/'));
 
-		$urlParts = explode('?', $request->uri());
-
-		if (isset($urlParts[1]))
-			parse_str($urlParts[1], $this->inputs);
-		else
-			$this->inputs = [];
-		$uri = explode('/', ltrim($urlParts[0], '/'));
-        $this->uri = $urlParts[0];
+		$uri = explode('/', ltrim($this->uri, '/'));
 		$routeKey = array_shift($uri);
-
+		
 		$this->routeKey = $routeKey == "" ? '/' : $routeKey;
 		$controllerAction = array_shift($uri);
 		$this->controllerAction = $controllerAction;

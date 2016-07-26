@@ -30,6 +30,11 @@ class Router
 	 */
 	protected $params = [];
 
+	/**
+	 * URL
+	 *
+	 * @var string
+	 */
 	protected $url;
 
 	/**
@@ -63,7 +68,7 @@ class Router
 			elseif ($route->isController())
 				$collection->addController($route);
 		}
-
+		
 		return $collection;
 	}
 
