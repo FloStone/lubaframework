@@ -16,6 +16,6 @@ class Log
 
 	public static function exception($exception)
 	{
-		static::write($exception->getTraceAsString());
+		static::write(str_replace('{main}', $exception->getMessage(), $exception->getTraceAsString()));
 	}
 }
