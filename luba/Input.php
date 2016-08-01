@@ -79,4 +79,14 @@ class Input implements SingletonInterface
 	{
 		return self::getInstance()->getFile($name);
 	}
+
+	public static function all()
+	{
+		if (strtolower(Request::getInstance()->method()) == 'post')
+			return static::post();
+		if (strtolower(Request::getInstance()->method()) == 'get')
+			return static::get();
+
+		return NULL;
+	}
 }

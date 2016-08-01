@@ -113,6 +113,20 @@ if (!function_exists('view_path'))
 }
 
 /**
+ * Get the temp path
+ *
+ * @param string $path
+ * @return string
+ */
+if (!function_exists('storage_path'))
+{
+	function storage_path($path = '')
+	{
+		return base_path('storage/') . $path;
+	}
+}
+
+/**
  * Return the Application instance
  *
  * @return Luba\Framework\Applicatio

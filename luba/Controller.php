@@ -12,7 +12,21 @@ class Controller
 	 *
 	 * @var array
 	 */
-	protected static $actions = [];
+	protected $actions = [];
+
+	/**
+	 * Allowed post only actions
+	 *
+	 * @var array
+	 */
+	protected $post_actions = [];
+
+	/**
+	 * Allowed get only actions
+	 *
+	 * @var array
+	 */
+	protected $get_actions = [];
 
 	/**
 	 * String representation
@@ -33,10 +47,24 @@ class Controller
 	 */
 	final public function actionIsAllowed($action)
 	{
-		if (array_search($action, static::$actions) === false)
+		$allowed = $this->checkAction($action);
+
+		if (!$allowed)
 			throw new ActionNotAllowedException($action, get_called_class());
 
 		return true;
+	}
+
+	final public function checkAction($action)
+	{
+		if (array_search($action, $this->get_actions) !== false && strtolower(Request::getInstance()->method()) == 'get')
+			return true;
+		elseif (array_search($action, $this->post_actions) !== false && strtolower(Request::getInstance()->method()) == 'post')
+			return true;
+		elseif (array_search($action, $this->actions) !== false)
+			return true;
+		else
+			return false;
 	}
 
 	/**
