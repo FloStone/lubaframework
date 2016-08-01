@@ -156,8 +156,8 @@ class Router
 	public function getParameters(Route $action)
 	{
 		$uri = URL::getInstance()->uri();
-		$pattern = str_replace('/', '\/', $action->fullUri());
-
+		$pattern = str_replace('/', '\/', ltrim(rtrim($action->fullUri(), '/'), '/'));
+		
 		preg_match("/$pattern/", $uri, $matches);
 
 		array_shift($matches);
