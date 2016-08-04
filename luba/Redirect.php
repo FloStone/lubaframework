@@ -4,8 +4,8 @@ namespace Luba\Framework;
 
 class Redirect
 {
-	public static function back()
+	public static function to($url)
 	{
-		
+		return header("Location: $url");
 	}
 }
