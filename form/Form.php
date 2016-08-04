@@ -173,7 +173,10 @@ class Form
 
 	public function textarea($name, $value = NULL, array $attributes = [])
 	{
-		return new TextareaField($name, $value, $attributes);
+		$textarea = new TextareaField($name, $value, $attributes);
+		$this->fields[] = $textarea;
+
+		return $textarea;
 	}
 
 	/**
