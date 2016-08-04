@@ -171,6 +171,11 @@ class Form
 		return $this->inputField(self::TYPE_TEXT, $name, $value, $attributes);
 	}
 
+	public function textarea($name, $value = NULL, array $attributes = [])
+	{
+		return new TextareaField($name, $value, $attributes);
+	}
+
 	/**
 	 * Add a select field
 	 *
