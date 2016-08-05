@@ -89,4 +89,18 @@ class Input implements SingletonInterface
 
 		return NULL;
 	}
+
+	public static function except()
+	{
+		$exceptions  = func_get_args();
+		$inputs = static::all();
+
+		foreach ($exceptions as $except)
+		{
+			if (isset($inputs[$except]))
+				unset($inputs[$except]);
+		}
+
+		return $inputs;
+	}
 }
