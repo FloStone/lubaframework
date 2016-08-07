@@ -143,7 +143,7 @@ class URL implements SingletonInterface
 		$uri = rtrim(ltrim($uri, '/'), '/');
 
 		if ($uri != '')
-			$uri = "$uri/";
+			$uri = "$uri";
 
 		return empty($params) ? "$scheme://$root$uri": "$scheme://$root$uri?$params";
 	}

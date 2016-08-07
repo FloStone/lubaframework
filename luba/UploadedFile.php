@@ -54,6 +54,8 @@ class UploadedFile extends File
 	public function rename($name)
 	{
 		$this->name = $name;
+
+		return $this;
 	}
 
 	/**
@@ -122,6 +124,11 @@ class UploadedFile extends File
 	public function original()
 	{
 		return $this->original;
+	}
+
+	public function name()
+	{
+		return $this->name;
 	}
 
 	/**
