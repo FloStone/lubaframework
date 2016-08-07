@@ -68,8 +68,8 @@ class UploadedFile extends File
 	public function move($destination, $name = NULL)
 	{
 		$dest = rtrim($destination, '/') . DIRECTORY_SEPARATOR . (is_null($name) ? $this->name : $name) . "." . $this->extension;
-
-		rename($this->path, $dest);
+		
+		move_uploaded_file($this->path, $dest);
 
 		$this->path = $dest;
 
