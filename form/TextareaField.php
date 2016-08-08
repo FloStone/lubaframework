@@ -4,17 +4,18 @@ namespace Luba\Form;
 
 class TextareaField extends FormField
 {
-	public function __construct($name, $value, array $attributes = [])
+	public function __construct($name, $value, array $attributes = [], $bind = NULL)
 	{
 		$this->attributes = $attributes;
 		$this->name = $name;
 		$this->value = $value;
+		$this->bind = $bind;
 	}
 
 	public function render()
 	{
 		$name = $this->name;
-		$value = $this->value;
+		$value = $this->bind ?: $this->value;
 		$attributes = $this->renderAttributes($this->attributes);
 		$label = $this->label;
 		$labelAttributes = $this->renderAttributes($this->labelAttributes);

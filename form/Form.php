@@ -173,7 +173,8 @@ class Form
 
 	public function textarea($name, $value = NULL, array $attributes = [])
 	{
-		$textarea = new TextareaField($name, $value, $attributes);
+		$bind = $this->bind ? isset($this->bindings[$name]) ? $this->bindings[$name] : NULL : NULL;
+		$textarea = new TextareaField($name, $value, $attributes, $bind);
 		$this->fields[] = $textarea;
 
 		return $textarea;
