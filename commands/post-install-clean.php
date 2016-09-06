@@ -1,3 +1,3 @@
 <?php
 
-unlink(bbase_path('copyconfig'));
+unlink(base_path('copyconfig'));
