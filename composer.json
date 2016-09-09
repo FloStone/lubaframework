@@ -19,7 +19,8 @@
             "Luba\\Exceptions\\": "exceptions/",
             "Luba\\Interfaces\\": "interfaces/",
             "Luba\\Traits\\": "traits/",
-            "Luba\\Form\\": "form/"
+            "Luba\\Form\\": "form/",
+            "Luba\\Commands\\": "commands/"
         },
         "classmap": [
             "aliases"
