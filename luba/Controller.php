@@ -74,7 +74,7 @@ class Controller
 	 * @param array $variables
 	 * @return View
 	 */
-	final public function render($template, array $variables = [])
+	public function render($template, array $variables = [])
 	{
 		return new View($template, $variables);
 	}
@@ -84,7 +84,7 @@ class Controller
 	 *
 	 * @return response
 	 */
-	final public function redirect($url)
+	public function redirect($url)
 	{
 		header("Location: $url");
 	}
