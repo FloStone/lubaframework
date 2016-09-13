@@ -38,7 +38,42 @@ class Paginator implements IteratorAggregate
 
 		if ($this->totalpages > 7)
 		{
+			$dots = "<li><a href=\"#\" class=\"dots\">...</a></li>";
 
+			$current = (int) Input::get('page') ?: 1;
+
+			if ($current < 4)
+			{
+				for ($i=1; $i <= 5; $i++)
+				{
+					$pagearray[] = $this->pagelink($i);
+				}
+
+				$pagearray[] = $dots;
+				$pagearray[] = $this->pagelink($this->totalpages);
+			}
+			elseif ($current > $this->totalpages - 5)
+			{
+				$pagearray[] = $this->pagelink(1);
+				$pagearray[] = $dots;
+
+				for ($i = $this->totalpages - 5; $i <= $this->totalpages; $i++)
+				{
+					$pagearray[] = $this->pagelink($i);
+				}
+			}
+			else
+			{
+				$pagearray[] = $this->pagelink(1);
+				$pagearray[] = $dots;
+
+				$pagearray[] = $this->pagelink($current - 1);
+				$pagearray[] = $this->pagelink($current);
+				$pagearray[] = $this->pagelink($current + 1);
+
+				$pagearray[] = $dots;
+				$pagearray[] = $this->pagelink($this->totalpages);
+			}
 		}
 		else
 		{
