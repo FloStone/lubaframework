@@ -29,6 +29,13 @@ class Controller
 	protected $get_actions = [];
 
 	/**
+	 * Set the controller as global to diable method checkint
+	 *
+	 * @var bool
+	 */
+	protected $global = false;
+
+	/**
 	 * String representation
 	 *
 	 * @return string
@@ -87,5 +94,15 @@ class Controller
 	public function redirect($url)
 	{
 		header("Location: $url");
+	}
+
+	/**
+	 * Check if the controller ist a global controller
+	 *
+	 * @return bool
+	 */
+	public function isGlobal()
+	{
+		return $this->global;
 	}
 }

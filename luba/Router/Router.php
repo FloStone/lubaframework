@@ -127,7 +127,7 @@ class Router
 		$controller = new $controller;
 		$method = $action->method() == '' ? 'index' : $action->method();
 
-		if (method_exists($controller, $method) or (class_exists(\Luba\AdminBackend::class) ? is_subclass_of($controller, \Luba\AdminBackend::class) : false))
+		if (method_exists($controller, $method) or (class_exists(\Luba\AdminBackend::class) ? is_subclass_of($controller, \Luba\AdminBackend::class) : false) or $controller->isGlobal())
 		{
 			if ($controller->actionIsAllowed($method))
 				return call_user_func_array([$controller, $method], $action->params());
