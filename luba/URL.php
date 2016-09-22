@@ -148,6 +148,17 @@ class URL implements SingletonInterface
 		return empty($params) ? "$scheme://$root$uri": "$scheme://$root$uri?$params";
 	}
 
+	public function other($url, array $params = [])
+	{
+		if (!empty($params))
+			$params = http_build_query($params);
+
+		if (stripos($url, 'http') === false)
+			$url = "http://$url";
+
+		return $url;
+	}
+
 	/**
 	 * Get the full URL
 	 *

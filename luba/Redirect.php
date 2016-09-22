@@ -8,4 +8,11 @@ class Redirect
 	{
 		return header("Location: $url");
 	}
+
+	public static function external($url)
+	{
+		$url = \URL::other($url);
+
+		return header("Location: $url");
+	}
 }
