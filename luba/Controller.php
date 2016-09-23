@@ -64,6 +64,8 @@ class Controller
 
 	final public function checkAction($action)
 	{
+		if ($this->global)
+			return true;
 		if (array_search($action, $this->get_actions) !== false && strtolower(Request::getInstance()->method()) == 'get')
 			return true;
 		elseif (array_search($action, $this->post_actions) !== false && strtolower(Request::getInstance()->method()) == 'post')
