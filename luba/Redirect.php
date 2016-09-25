@@ -6,13 +6,16 @@ class Redirect
 {
 	public static function to($url, $type = 302)
 	{
+		$this->getRedirectType($type);
+
 		return header("Location: $url");
 	}
 
 	public static function external($url, $type = 302)
 	{
 		$url = \URL::other($url);
-
+		$this->getRedirectType($type);
+		
 		return header("Location: $url");
 	}
 
