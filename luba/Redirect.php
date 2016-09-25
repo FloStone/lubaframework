@@ -4,22 +4,32 @@ namespace Luba\Framework;
 
 class Redirect
 {
-	public static function to($url, $type = 302)
+	public function to($url, $type = 302)
 	{
-		static::getRedirectType($type);
-
-		return header("Location: $url");
+		return $this->redirect($url, $type);
 	}
 
-	public static function external($url, $type = 302)
+	public function external($url, $type = 302)
 	{
 		$url = \URL::other($url);
-		static::getRedirectType($type);
 		
-		return header("Location: $url");
+		return $this->redirect($url, $type);
 	}
 
-	public static function getRedirectHeader($type)
+	public function url($url, $type = 302)
+	{
+		$this->getRedirectType($type);
+		$url = url($url);
+
+		return $this->redirect($url, $type);
+	}
+
+	protected function redirect($url, $type = 302)
+	{
+		$this->getRedirectType($type);
+	}
+
+	public function getRedirectType($type = 302)
 	{
 		if ($type == 301)
 			header("HTTP/1.1 301 Moved Permanently");
