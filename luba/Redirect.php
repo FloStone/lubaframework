@@ -27,6 +27,8 @@ class Redirect
 	protected function redirect($url, $type = 302)
 	{
 		$this->getRedirectType($type);
+
+		header("Location: $url");
 	}
 
 	public function getRedirectType($type = 302)
