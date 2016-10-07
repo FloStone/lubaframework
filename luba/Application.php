@@ -8,7 +8,7 @@ use Luba\Exceptions\HttpNotFoundException;
 use Luba\Interfaces\SingletonInterface;
 use Luba\Traits\Singleton;
 
-class Application implements SingletonInterface
+class Application extends Luba implements SingletonInterface
 {
 	use Singleton;
 
@@ -70,6 +70,8 @@ class Application implements SingletonInterface
 		$this->router = new Router\Router;
 
 		Session::start();
+
+		parent::__construct();
 	}
 
 	/**
