@@ -18,7 +18,7 @@ abstract class Luba
 			require base_path('config/global.php');
 	}
 
-	public static function runCommand($command)
+	public static function command($command)
 	{
 		return Command::exec($command);
 	}
