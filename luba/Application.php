@@ -64,14 +64,15 @@ class Application extends Luba implements SingletonInterface
 		
 		self::setInstance($this);
 		$this->basePath = $basepath;
+
+		parent::__construct();
+		
 		$this->request = new Request;
 		$this->url = new URL;
 		$this->input = new Input;
 		$this->router = new Router\Router;
 
 		Session::start();
-
-		parent::__construct();
 	}
 
 	/**

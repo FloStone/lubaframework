@@ -13,7 +13,7 @@ abstract class Luba
 	{
 		if (file_exists(base_path('config/config.php')))
 			require base_path('config/config.php');
-
+		
 		if (file_exists(base_path('config/global.php')))
 			require base_path('config/global.php');
 	}
