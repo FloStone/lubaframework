@@ -189,8 +189,11 @@ class Form
 	 * @param array $attributes
 	 * @return SelectField
 	 */
-	public function select($name, array $options = [], $default = NULL, array $attributes = [])
+	public function select($name, array $options = [], $default = NULL, array $attributes = [], $nobind = false)
 	{
+		if ($this->bind && !$nobind)
+			$default = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
+		
 		$select = new SelectField($name, $options, $default, $attributes);
 		$this->fields[] = $select;
 
