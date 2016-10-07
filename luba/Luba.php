@@ -9,7 +9,7 @@ abstract class Luba
 		$this->loadconfigs();
 	}
 
-	public function loadconfigs($file)
+	public function loadconfigs()
 	{
 		if (file_exists(base_path('config/config.php')))
 			require base_path('config/config.php');
