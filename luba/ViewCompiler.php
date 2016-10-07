@@ -44,9 +44,12 @@ class ViewCompiler
 		'<?= $1; ?>'
 	];
 
-	public function __construct($template)
+	protected $variables = [];
+
+	public function __construct($template, $variables = [])
 	{
 		$this->template = $template;
+		$this->variables = [];
 	}
 
 	public function compile()
@@ -57,7 +60,7 @@ class ViewCompiler
 
 		if ($parent)
 		{
-			$parentCompiled = (new View($parent))->render();
+			$parentCompiled = (new View($parent, $this->variables))->render();
 			$file = $this->insertIntoParent($parentCompiled, $file);
 		}
 

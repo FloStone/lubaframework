@@ -100,7 +100,7 @@ class View
 
 	public function compileTemplate()
 	{
-		$compiler = new ViewCompiler($this->template);
+		$compiler = new ViewCompiler($this->template, $this->variables);
 		$compiler->compile();
 		$this->compiled = $compiler->tempName();
 	}
