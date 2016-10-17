@@ -40,7 +40,7 @@ class Controller
 	 *
 	 * @return string
 	 */
-	public function __tostring()
+	public function __toString()
 	{
 		return get_class($this);
 	}
