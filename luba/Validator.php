@@ -191,7 +191,7 @@ class Validator
 		$sToken = Session::get('__formtoken');
 		
 		$fToken = Input::post('_token');
-
+		
 		if ($fToken)
 		{
 			if ($fToken == $sToken)
