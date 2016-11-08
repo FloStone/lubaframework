@@ -1,11 +1,12 @@
 <?php
 
-use Luba\Framework\Request as BaseRequest;
+use Luba\Traits\StaticCallable;
 
 class Request
 {
-	public static function __callStatic($func, $args)
-	{
-		return call_user_func_array([BaseRequest::getInstance(), $func], $args);
-	}
+	use StatcCallable;
+
+	protected static $class = "Luba\Framework\Request";
+
+	protected static $singleton = true;
 }

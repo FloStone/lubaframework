@@ -1,11 +1,12 @@
 <?php
 
-use Luba\Framework\URL as BaseURL;
+use Luba\Traits\StaticCallable;
 
 class URL
 {
-	public static function __callStatic($method, $args)
-	{
-		return call_user_func_array([BaseURL::getInstance(), $method], $args);
-	}
+	use StaticCallable;
+
+	protected static $class = "Luba\Framework\URL";
+
+	protected static $singleton = true;
 }

@@ -134,6 +134,9 @@ class URL implements SingletonInterface
 	 */
 	public function make($uri = NULL, array $params = [])
 	{
+		if ($uri instanceof self)
+			return $uri;
+
 		if (!empty($params))
 			$params = http_build_query($params);
 

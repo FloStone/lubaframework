@@ -1,11 +1,10 @@
 <?php
 
-use Luba\Framework\Redirect as BaseRedirect;
+use Luba\Traits\StaticCallable;
 
 class Redirect
 {
-	public static function __callStatic($func, $args)
-	{
-		return call_user_func_array([new BaseRedirect, $func], $args);
-	}
+	use StaticCallable;
+
+	protected static $class = "Luba\Framework\Redirect";
 }
