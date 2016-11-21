@@ -89,6 +89,7 @@ class Application extends Luba implements SingletonInterface
 	/**
 	 * Render out the returned controller action
 	 *
+	 * @param string $response
 	 * @return void
 	 */
 	public function renderAction($response)
