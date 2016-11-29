@@ -20,6 +20,6 @@ abstract class Luba
 
 	public static function command($command)
 	{
-		return Command::exec($command);
+		return Command::runCommand($command);
 	}
 }

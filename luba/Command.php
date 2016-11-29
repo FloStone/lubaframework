@@ -6,7 +6,21 @@ use Luba\Interfaces\CommandInterface;
 
 abstract class Command implements CommandInterface
 {
-	public static function exec($name)
+	protected static $options = [];
+
+	protected static $arguments = [];
+
+	public static function setArguments(array $args = [])
+	{
+		$args = $args;
+		unset($args[0]);
+		unset($args[1]);
+		$args = array_values($args);
+
+		static::$arguments = $args;
+	}
+
+	public static function runCommand($name)
 	{
 		$command = "Luba\Commands\\$name";
 
@@ -15,5 +29,22 @@ abstract class Command implements CommandInterface
 
 		$command = new $command;
 		$command->run();
+	}
+
+	public function output($output)
+	{
+		print $output;
+		print "\n";
+	}
+
+	public function exec($name)
+	{
+		static::runCommand($name);
+	}
+
+	public function argument($index)
+	{
+		dd(static::$arguments[$index]);
+		return static::$arguments[$index];
 	}
 }
