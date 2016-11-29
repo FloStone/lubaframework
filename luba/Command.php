@@ -44,7 +44,6 @@ abstract class Command implements CommandInterface
 
 	public function argument($index)
 	{
-		dd(static::$arguments[$index]);
 		return static::$arguments[$index];
 	}
 }
