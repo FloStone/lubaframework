@@ -4,6 +4,9 @@ namespace Luba\Framework;
 
 abstract class Migrator extends Command
 {
+
+	const AVAILABLE_COMMANDS = "Available parameters for migrate:\ndrop|destroy|refresh|rebuild";
+
 	/**
 	 * Build the database
 	 *
@@ -26,14 +29,16 @@ abstract class Migrator extends Command
 	public function run()
 	{
 		$command = $this->argument(0);
-		if ($command == 'destroy')
+		if ($command == 'destroy' || $command == 'drop')
 			$this->destroy();
-		elseif ($command == "refresh")
+		elseif ($command == "refresh" || $command == 'rebuild')
 		{
 			$this->destroy();
 			$this->build();
 		}
-		else
+		elseif ($command == '')
 			$this->build();
+		else
+			$this->output(static::AVAILABLE_COMMANDS);
 	}
 }
