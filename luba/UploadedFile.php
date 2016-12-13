@@ -5,20 +5,6 @@ namespace Luba\Framework;
 class UploadedFile extends File
 {
 	/**
-	 * File size
-	 *
-	 * @var int
-	 */
-	protected $size;
-
-	/**
-	 * File type
-	 *
-	 * @var string
-	 */
-	protected $type;
-
-	/**
 	 * Original array
 	 *
 	 * @var array
@@ -46,19 +32,6 @@ class UploadedFile extends File
 	}
 
 	/**
-	 * Rename the file
-	 *
-	 * @param string $name
-	 * @return void
-	 */
-	public function rename($name)
-	{
-		$this->name = $name;
-
-		return $this;
-	}
-
-	/**
 	 * Move the file
 	 *
 	 * @param string destination
@@ -77,46 +50,6 @@ class UploadedFile extends File
 	}
 
 	/**
-	 * get the file type
-	 *
-	 * @return string
-	 */
-	public function type()
-	{
-		return $this->type;
-	}
-
-	/**
-	 * Get the file extension
-	 *
-	 * @return string
-	 */
-	public function extension()
-	{
-		return $this->extension;
-	}
-
-	/**
-	 * Get the file size
-	 *
-	 * @return int
-	 */
-	public function size()
-	{
-		return $this->size;
-	}
-
-	/**
-	 * Get the file path
-	 *
-	 * @return string
-	 */
-	public function path()
-	{
-		return $this->path;
-	}
-
-	/**
 	 * Get the original array
 	 *
 	 * @return array
@@ -124,20 +57,5 @@ class UploadedFile extends File
 	public function original()
 	{
 		return $this->original;
-	}
-
-	public function name()
-	{
-		return $this->name;
-	}
-
-	/**
-	 * Get the full name including extension
-	 *
-	 * @return string
-	 */
-	public function fullName()
-	{
-		return "{$this->name}.{$this->extension}";
 	}
 }
