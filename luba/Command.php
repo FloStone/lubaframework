@@ -12,11 +12,9 @@ abstract class Command implements CommandInterface
 
 	public static function setArguments(array $args = [])
 	{
-		$args = $args;
 		unset($args[0]);
 		unset($args[1]);
 		$args = array_values($args);
-
 		static::$arguments = $args;
 	}
 
@@ -44,6 +42,6 @@ abstract class Command implements CommandInterface
 
 	public function argument($index)
 	{
-		return isset(static::$arguments[$index]) ? static::$arguments[$index] :null;
+		return isset(static::$arguments[$index]) ? static::$arguments[$index] : null;
 	}
 }
