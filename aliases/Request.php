@@ -4,7 +4,7 @@ use Luba\Traits\StaticCallable;
 
 class Request
 {
-	use StatcCallable;
+	use StaticCallable;
 
 	protected static $class = "Luba\Framework\Request";
 
