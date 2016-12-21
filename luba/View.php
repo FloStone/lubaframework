@@ -35,6 +35,12 @@ class View
 	protected $deleteCompiled = true;
 
 	/**
+	 * Shared variables across all views
+	 * @var array
+	 */
+	protected static $shared = [];
+
+	/**
 	 * Initialization
 	 *
 	 * @param string $template
@@ -55,9 +61,9 @@ class View
 			throw new TemplateNotFoundException($template);
 
 		if ($compileVars)
-			$this->variables = ViewCompiler::compileVariables($variables);
+			$this->variables = ViewCompiler::compileVariables($variables + static::$shared);
 		else
-			$this->variables = $variables;
+			$this->variables = $variables + static::$shared;
 
 		$this->compileTemplate();
 	}
@@ -103,6 +109,11 @@ class View
 		$compiler = new ViewCompiler($this->template, $this->variables);
 		$compiler->compile();
 		$this->compiled = $compiler->tempName();
+	}
+
+	public static function share($key, $value)
+	{
+		static::$shared[$key] = $value;
 	}
 
 	public static function keepCompiledFiles()

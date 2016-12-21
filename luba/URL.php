@@ -184,6 +184,6 @@ class URL implements SingletonInterface
 
 	public function withoutParams()
 	{
-		return \Request::scheme() . "://" . \Request::root() . $this->uri();
+		return \Request::scheme() . "://" . \Request::root() . ($this->uri() == "/" ? "" : $this->uri());
 	}
 }

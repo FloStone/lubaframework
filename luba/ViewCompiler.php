@@ -11,20 +11,20 @@ class ViewCompiler
 	protected $compiled;
 
 	protected static $patterns = [
-		'/<echo>/',			// echo open
-		'/<\/echo>/',		// echo close
+		'/<echo>/U',			// echo open
+		'/<\/echo>/U',		// echo close
 		'/\$(\$\w*)/',		// echo variable
-		'/<if (.*)>/',		// if open
-		'/<else>/',			// else
-		'/<elseif(.*)>/',	// elseif
-		'/<\/if>/',			// if close
-		'/<php>/',			// php open
-		'/<\/php>/',		// php close
-		'/<foreach(.*)>/',	// foreach open
-		'/<\/foreach>/',	// foreach close
-		'/<continue>/',		// continue
-		'/<break>/',		// break
-		'/<<(.*)>>/'		// echo php
+		'/<if (.*)>/U',		// if open
+		'/<else>/U',			// else
+		'/<elseif(.*)>/U',	// elseif
+		'/<\/if>/U',			// if close
+		'/<php>/U',			// php open
+		'/<\/php>/U',		// php close
+		'/<foreach(.*)>/U',	// foreach open
+		'/<\/foreach>/U',	// foreach close
+		'/<continue>/U',		// continue
+		'/<break>/U',		// break
+		'/<<(.*)>>/U'		// echo php
 	];
 
 	protected static $replacements = [
