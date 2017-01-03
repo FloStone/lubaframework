@@ -6,6 +6,8 @@ use IteratorAggregate, ArrayIterator;
 
 class Paginator implements IteratorAggregate
 {
+    protected $totalcount;
+
 	protected $totalpages;
 
 	protected $query;
@@ -14,22 +16,27 @@ class Paginator implements IteratorAggregate
 
 	protected $items;
 
-	public function __construct($query, $perpage)
+	public function __construct($query, $perpage, $modelname=null)
 	{
 		$count = $query->count();
 		$totalpages = (int) ceil($count / $perpage);
+        $this->totalcount = $count;
 		$this->totalpages = $totalpages;
 		$this->query = $query;
 		$this->perpage = $perpage;
 
-		$this->makeItems();
+		$this->makeItems($modelname);
 	}
 
-	public function makeItems()
+	public function makeItems($modelname)
 	{
 		$currentpage = Input::get('page') ?: 1;
-		$items = $this->query->limit($this->perpage)->offset(($currentpage - 1) * $this->perpage)->get();
-		$this->items = $items;
+		$items = $this->query->limit($this->perpage)->offset(($currentpage - 1) * $this->perpage);
+        if($modelname) {
+            $this->items = $items->toModel($modelname);
+        } else {
+            $this->items = $items->get();
+        }
 	}
 
 	public function render()
@@ -84,7 +91,7 @@ class Paginator implements IteratorAggregate
 		}
 
 		$pagearray[] = "</ul></div>";
-		
+
 		return implode(' ', $pagearray);
 	}
 
@@ -97,7 +104,7 @@ class Paginator implements IteratorAggregate
 	{
 		$active = (Input::get('page') ?: 1) == $number ? 'class="active"' : '';
 		$link = url(URL::getInstance()->uri(), array_merge(URL::getInstance()->inputs(), ['page' => $number]));
-		
+
 		return "<li><a href=\"$link\" $active>$number</a></li>";
 	}
 
@@ -110,4 +117,9 @@ class Paginator implements IteratorAggregate
 	{
 		return new ArrayIterator($this->items);
 	}
+
+    public function getTotal()
+    {
+        return $this->totalcount;
+    }
 }
