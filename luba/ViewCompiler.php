@@ -102,7 +102,7 @@ class ViewCompiler
 			return false;
 
 		$parent = str_replace(['<parent::', '>'], '', $matches[0]);
-		
+
 		return $parent;
 	}
 
@@ -140,6 +140,7 @@ class ViewCompiler
 			else
 				throw new TemplateNotFoundException($template);
 
+            $template = str_replace("/", "\/", $template);
 			$file = preg_replace("/<include\s+$template>/", $templateFile, $file);
 		}
 
@@ -150,7 +151,7 @@ class ViewCompiler
 	{
 
 		preg_match_all('/<insert::(\w*)>/', $view, $matches);
-		
+
 		foreach ($matches[0] as $match)
 		{
 			$view = str_replace($match, '', $view);
