@@ -6,6 +6,8 @@ use Luba\Framework\Application;
 use Luba\Framework\View;
 use Luba\Framework\URL;
 
+define('HUHU', 'HUHU');
+
 /**
  * Die and dump
  *
