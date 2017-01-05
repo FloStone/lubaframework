@@ -122,4 +122,9 @@ class Paginator implements IteratorAggregate
     {
         return $this->totalcount;
     }
+
+    public function getPages()
+    {
+        return $this->totalpages;
+    }
 }
