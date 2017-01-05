@@ -16,7 +16,9 @@ class Paginator implements IteratorAggregate
 
 	protected $items;
 
-	public function __construct($query, $perpage, $modelname=null)
+    protected $requestvar;
+
+	public function __construct($query, $perpage, $requestvar="page", $modelname=null)
 	{
 		$count = $query->count();
 		$totalpages = (int) ceil($count / $perpage);
@@ -24,13 +26,14 @@ class Paginator implements IteratorAggregate
 		$this->totalpages = $totalpages;
 		$this->query = $query;
 		$this->perpage = $perpage;
+        $this->requestvar = $requestvar;
 
 		$this->makeItems($modelname);
 	}
 
 	public function makeItems($modelname)
 	{
-		$currentpage = Input::get('page') ?: 1;
+		$currentpage = Input::get($this->requestvar) ?: 1;
 		$items = $this->query->limit($this->perpage)->offset(($currentpage - 1) * $this->perpage);
         if($modelname) {
             $this->items = $items->toModel($modelname);
@@ -47,7 +50,7 @@ class Paginator implements IteratorAggregate
 		{
 			$dots = "<li><a href=\"#\" class=\"dots\">...</a></li>";
 
-			$current = (int) Input::get('page') ?: 1;
+			$current = (int) Input::get($this->requestvar) ?: 1;
 
 			if ($current < 4)
 			{
@@ -102,8 +105,8 @@ class Paginator implements IteratorAggregate
 
 	public function pagelink($number)
 	{
-		$active = (Input::get('page') ?: 1) == $number ? 'class="active"' : '';
-		$link = url(URL::getInstance()->uri(), array_merge(URL::getInstance()->inputs(), ['page' => $number]));
+		$active = (Input::get($this->requestvar) ?: 1) == $number ? 'class="active"' : '';
+		$link = url(URL::getInstance()->uri(), array_merge(URL::getInstance()->inputs(), [$this->requestvar => $number]));
 
 		return "<li><a href=\"$link\" $active>$number</a></li>";
 	}
