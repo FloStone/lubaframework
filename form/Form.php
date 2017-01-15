@@ -155,7 +155,8 @@ class Form
 	 */
 	public function checkbox($name, $value = NULL, $checked = false, array $attributes = [])
 	{
-		return $this->inputField(self::TYPE_CHECKBOX, $name, $value, $attributes, $checked ? ['checked' => 'checked'] : []);
+		$bind = $this->bind ? isset($this->bindings[$name]) ? $this->bindings[$name] : false : $checked;
+		return $this->inputField(self::TYPE_CHECKBOX, $name, $value, $attributes, $bind ? ['checked' => 'checked'] : []);
 	}
 
 	/**
@@ -171,6 +172,13 @@ class Form
 		return $this->inputField(self::TYPE_TEXT, $name, $value, $attributes);
 	}
 
+	/**
+	 * Textarea field
+	 * @param  String $name
+	 * @param  String $value
+	 * @param  array  $attributes
+	 * @return TextareaField
+	 */
 	public function textarea($name, $value = NULL, array $attributes = [])
 	{
 		$bind = $this->bind ? isset($this->bindings[$name]) ? $this->bindings[$name] : NULL : NULL;
