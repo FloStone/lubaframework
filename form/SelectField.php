@@ -30,7 +30,10 @@ class SelectField extends FormField
 	{
 		$this->name = $name;
 		$this->options = $options;
-		$this->default = $default;
+        if(is_array($default) || $default === null)
+		    $this->default = $default;
+        else
+            $this->default = [$default];
 		$this->attributes = $attributes;
 	}
 
@@ -41,16 +44,19 @@ class SelectField extends FormField
 	 */
 	public function render()
 	{
+        $id = $this->name;
 		$name = $this->name;
 		$attributes = $this->renderAttributes($this->attributes);
+        if(array_key_exists("multiple", $this->attributes))
+            $name.="[]";
 		$label = $this->label;
 		$labelAttributes = $this->renderAttributes($this->labelAttributes);
 
-		$select = "<select name=\"$name\" id=\"$name\" $attributes>\r\n";
+		$select = "<select name=\"$name\" id=\"$id\" $attributes>\r\n";
 
 		foreach ($this->options as $value => $name)
 		{
-			if ((string)$this->default == (string)$value)
+			if ($this->default !== null && in_array($value, $this->default))
 				$select = "$select<option value=\"$value\" selected>$name</option>\r\n";
 			else
 				$select = "$select<option value=\"$value\">$name</option>\r\n";

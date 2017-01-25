@@ -147,7 +147,7 @@ class Form
 	/**
 	 * Add a checkbox field
 	 *
-	 * @param string $name 
+	 * @param string $name
 	 * @param string $value
 	 * @param bool $checked
 	 * @param array $attributes
@@ -201,7 +201,7 @@ class Form
 	{
 		if ($this->bind && !$nobind)
 			$default = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
-		
+
 		$select = new SelectField($name, $options, $default, $attributes);
 		$this->fields[] = $select;
 
@@ -219,7 +219,7 @@ class Form
 	{
 		$this->files = true;
 
-		return $this->inputField(self::TYPE_FILE, $name, NULL, $attributes, [], true);		
+		return $this->inputField(self::TYPE_FILE, $name, NULL, $attributes, [], true);
 	}
 
 	/**
@@ -372,7 +372,7 @@ class Form
 			$session = &Session::get('__formerrors')[$field->getName()];
 
 			$error = is_null(Session::get("__formerrors")) ? NULL : isset($session) ? $session : NULL;
-			
+
 			$fields[] = (new View('formfield', ['label' => $arr['label'], 'field' => $arr['field'], 'error' => $error], $formfieldtemplate))->render();
 		}
 
