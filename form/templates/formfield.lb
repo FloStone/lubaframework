@@ -1,15 +1,19 @@
-<div class="fieldrow
-    <if isset($type) && $type=="submit">
-    actions
-    </if>
-">
-	<if $error>
-		<div class="form-error" style="color:red">
-			$$error
-		</div>
-	</if>
-	$$label
-    <div class="field">
-	   $$field
+<if $type=="hidden">
+    $$field
+<else>
+    <div class="fieldrow
+        <if $type=="submit">
+        actions
+        </if>
+    ">
+        <if $error>
+            <div class="form-error" style="color:red">
+                $$error
+            </div>
+        </if>
+        $$label
+        <div class="field">
+           $$field
+        </div>
     </div>
-</div>
+</if>

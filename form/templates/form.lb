@@ -1,9 +1,10 @@
 <form $$method $$action $$files $$attributes>
-
 	<foreach $fields as $field>
-
 		$$field
-
 	</foreach>
-
+    <div class="fieldrow actions">
+    <foreach $actions as $action>
+        $$action
+    </foreach>
+    </div>
 </form>
