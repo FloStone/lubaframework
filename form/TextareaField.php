@@ -22,7 +22,8 @@ class TextareaField extends FormField
 
 		return [
 			'label' => is_null($label) ? "" : "<label for=\"$name\" $labelAttributes>$label</label>",
-			'field' => "<textarea name=\"$name\" id=\"$name\" $attributes>$value</textarea>"
+			'field' => "<textarea name=\"$name\" id=\"$name\" $attributes>$value</textarea>",
+            'type' => 'textarea'
 		];
 	}
 }

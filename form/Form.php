@@ -373,7 +373,7 @@ class Form
 
 			$error = is_null(Session::get("__formerrors")) ? NULL : isset($session) ? $session : NULL;
 
-			$fields[] = (new View('formfield', ['label' => $arr['label'], 'field' => $arr['field'], 'error' => $error], $formfieldtemplate))->render();
+			$fields[] = (new View('formfield', ['label' => $arr['label'], 'field' => $arr['field'], 'error' => $error, 'type' => $arr['type']], $formfieldtemplate))->render();
 		}
 
 		$template = new View('form', compact('method', 'action', 'files', 'attributes', 'fields'), $formtemplate);

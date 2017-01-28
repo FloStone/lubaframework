@@ -66,7 +66,8 @@ class SelectField extends FormField
 
 		return [
 			'label' => is_null($label) ? "" : "<label for=\"$name\" $labelAttributes>$label</label>",
-			'field' => $select
+			'field' => $select,
+            'type' => "select"
 		];
 	}
 }
