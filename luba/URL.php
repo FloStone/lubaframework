@@ -83,6 +83,17 @@ class URL implements SingletonInterface
 		$controllerAction = array_shift($uri);
 		$this->controllerAction = $controllerAction;
 		$this->params = $uri;
+
+		if (Session::has('__current_url'))
+		{
+			Session::set('__last_url', Session::get('__current_url'));
+			Session::set('__current_url', $this->full());
+		}
+		else
+		{
+			Session::set('__current_url', $this->full());
+		}
+
 	}
 
 	/**
@@ -182,8 +193,21 @@ class URL implements SingletonInterface
 		return $this->uri;
 	}
 
+	/**
+	 * Get the url without parameters
+	 * @return String
+	 */
 	public function withoutParams()
 	{
 		return \Request::scheme() . "://" . \Request::root() . $this->uri();
+	}
+
+	/**
+	 * Get the previous url
+	 * @return String
+	 */
+	public function previous()
+	{
+		return Session::has('__last_url') ? Session::get('__last_url') : null;
 	}
 }
