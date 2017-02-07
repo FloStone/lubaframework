@@ -66,7 +66,6 @@ class URL implements SingletonInterface
 	public function __construct()
 	{
 		self::setInstance($this);
-		
 		$request = Request::getInstance();
 
 		$this->url = $request->scheme() . '://' . $request->root() . ltrim($request->uri(), '/');
@@ -86,14 +85,14 @@ class URL implements SingletonInterface
 
 		if (Session::has('__current_url'))
 		{
-			Session::set('__last_url', Session::get('__current_url'));
+			$last = Session::get('__current_url');
+			Session::set('__last_url', $last);
 			Session::set('__current_url', $this->full());
 		}
 		else
 		{
 			Session::set('__current_url', $this->full());
 		}
-
 	}
 
 	/**
