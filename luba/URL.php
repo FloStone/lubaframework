@@ -85,9 +85,12 @@ class URL implements SingletonInterface
 
 		if (Session::has('__current_url'))
 		{
-			$last = Session::get('__current_url');
-			Session::set('__last_url', $last);
-			Session::set('__current_url', $this->full());
+			if (Session::get("__current_url") != $this->full())
+			{
+				$last = Session::get('__current_url');
+				Session::set('__last_url', $last);
+				Session::set('__current_url', $this->full());
+			}
 		}
 		else
 		{

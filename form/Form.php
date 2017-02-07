@@ -157,9 +157,9 @@ class Form
 	 * @param array $attributes
 	 * @return InputField
 	 */
-	public function hidden($name, $value = NULL, array $attributes = [])
+	public function hidden($name, $value = NULL, array $attributes = [], $nobind = false)
 	{
-		return $this->inputField(self::TYPE_HIDDEN, $name, $value, $attributes);
+		return $this->inputField(self::TYPE_HIDDEN, $name, $value, $attributes, [], $nobind);
 	}
 
 	/**
