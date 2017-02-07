@@ -46,10 +46,11 @@ class ViewCompiler
 
 	protected $variables = [];
 
-	public function __construct($template, $variables = [])
+	public function __construct($template, $variables = [], $customPath = NULL)
 	{
 		$this->template = $template;
-		$this->variables = [];
+		$this->variables = $variables;
+        $this->customPath = $customPath;
 	}
 
 	public function compile()
@@ -60,7 +61,7 @@ class ViewCompiler
 
 		if ($parent)
 		{
-			$parentCompiled = (new View($parent, $this->variables))->render();
+			$parentCompiled = (new View($parent, $this->variables, $this->customPath))->render();
 			$file = $this->insertIntoParent($parentCompiled, $file);
 		}
 

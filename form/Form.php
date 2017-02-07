@@ -36,6 +36,13 @@ class Form
 	 */
 	protected $fields = [];
 
+    /**
+     * Form submit buttons
+     *
+     * @var array
+     */
+    protected $actions = [];
+
 	/**
 	 * Form templates location
 	 *
@@ -97,6 +104,17 @@ class Form
 		}
 	}
 
+    /**
+     * Set custom form templates
+     *
+     * @param string $method
+     * @return void
+     */
+    public function templates($templates)
+    {
+        $this->templates = $templates;
+    }
+
 	/**
 	 * Set the form method
 	 *
@@ -147,7 +165,7 @@ class Form
 	/**
 	 * Add a checkbox field
 	 *
-	 * @param string $name 
+	 * @param string $name
 	 * @param string $value
 	 * @param bool $checked
 	 * @param array $attributes
@@ -201,7 +219,7 @@ class Form
 	{
 		if ($this->bind && !$nobind)
 			$default = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
-		
+
 		$select = new SelectField($name, $options, $default, $attributes);
 		$this->fields[] = $select;
 
@@ -219,7 +237,7 @@ class Form
 	{
 		$this->files = true;
 
-		return $this->inputField(self::TYPE_FILE, $name, NULL, $attributes, [], true);		
+		return $this->inputField(self::TYPE_FILE, $name, NULL, $attributes, [], true);
 	}
 
 	/**
@@ -244,7 +262,9 @@ class Form
 	 */
 	public function submit($name, $value = NULL, array $attributes = [])
 	{
-		return $this->inputField('submit', $name, $value, $attributes);
+        $formfield = new InputField('submit', $name, $value, $attributes);
+        $this->actions[] = $formfield;
+		return $formfield;
 	}
 
 	/**
@@ -355,9 +375,12 @@ class Form
 		$action = "action=\"{$this->action}\"";
 
 		$fields = [];
+        $actions = [];
 
 		$formtemplate = file_exists($this->templates . 'form.lb') ? $this->templates : __DIR__.'/templates/';
+
 		$formfieldtemplate = file_exists($this->templates . 'formfield.lb') ? $this->templates : __DIR__.'/templates/';
+        $actiontemplate = file_exists($this->templates . 'action.lb') ? $this->templates : __DIR__.'/templates/';
 
 		foreach($this->fields as $field)
 		{
@@ -372,11 +395,19 @@ class Form
 			$session = &Session::get('__formerrors')[$field->getName()];
 
 			$error = is_null(Session::get("__formerrors")) ? NULL : isset($session) ? $session : NULL;
-			
-			$fields[] = (new View('formfield', ['label' => $arr['label'], 'field' => $arr['field'], 'error' => $error], $formfieldtemplate))->render();
+
+			$fields[] = (new View('formfield', ['label' => $arr['label'], 'field' => $arr['field'], 'error' => $error, 'type' => $arr['type']], $formfieldtemplate))->render();
 		}
 
-		$template = new View('form', compact('method', 'action', 'files', 'attributes', 'fields'), $formtemplate);
+        foreach($this->actions as $act)
+        {
+
+            $arr = $act->render();
+
+            $actions[] = (new View('action', ['label' => $arr['label'], 'field' => $arr['field'], 'error' => $error, 'type' => $arr['type']], $actiontemplate))->render();
+        }
+
+		$template = new View('form', compact('method', 'action', 'files', 'attributes', 'fields', 'actions'), $formtemplate);
 
 		Session::remove('__formerrors');
 

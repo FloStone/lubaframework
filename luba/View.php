@@ -34,6 +34,14 @@ class View
 	 */
 	protected $deleteCompiled = true;
 
+    /**
+     * Delete compiled files after usage
+     *
+     * @var bool
+     */
+    protected $customPath = NULL;
+
+
 	/**
 	 * Initialization
 	 *
@@ -43,10 +51,15 @@ class View
 	public function __construct($template, array $variables = [], $customPath = NULL, $compileVars = false)
 	{
 		if ($customPath)
+        {
+            $this->customPath = $customPath;
 			$template = $customPath.str_replace('.', '/', $template);
-		else
+        }
+        else
+        {
 			$template = view_path(str_replace('.', '/', $template));
-		
+        }
+
 		if (file_exists("$template.lb"))
 			$this->template = "$template.lb";
 		elseif(file_exists("$template.php"))
@@ -100,7 +113,7 @@ class View
 
 	public function compileTemplate()
 	{
-		$compiler = new ViewCompiler($this->template, $this->variables);
+		$compiler = new ViewCompiler($this->template, $this->variables, $this->customPath);
 		$compiler->compile();
 		$this->compiled = $compiler->tempName();
 	}
