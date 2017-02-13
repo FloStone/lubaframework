@@ -2,6 +2,8 @@
 
 namespace Luba\Framework;
 
+use SQL;
+
 abstract class Migrator extends Command
 {
 
@@ -22,12 +24,21 @@ abstract class Migrator extends Command
 	abstract public function destroy();
 
 	/**
+	 * Disable or enable foreign key check
+	 * @var boolean
+	 */
+	protected static $foreignKeyCheck = false;
+
+	/**
 	 * Run the command
 	 *
 	 * @return void
 	 */
 	public function run()
 	{
+		if (!static::$foreignKeyCheck)
+			SQL::query("SET FOREIGN_KEY_CHECKS=0");
+
 		$command = $this->argument(0);
 		if ($command == 'destroy' || $command == 'drop')
 			$this->destroy();
@@ -40,5 +51,8 @@ abstract class Migrator extends Command
 			$this->build();
 		else
 			$this->output(static::AVAILABLE_COMMANDS);
+
+		if (!static::$foreignKeyCheck)
+			SQL::query("SET FOREIGN_KEY_CHECKS=1");
 	}
 }

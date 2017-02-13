@@ -65,7 +65,8 @@ class InputField extends FormField
 
 		return [
 			'label' => is_null($label) ? "" : "<label for=\"$name\" $labelAttributes>$label</label>",
-			'field' => "<input type=\"$type\" name=\"$name\" id=\"$name\" $value $attributes $other>"
+			'field' => "<input type=\"$type\" name=\"$name\" id=\"$name\" $value $attributes $other>",
+            'type' => $type
 		];
 	}
 }

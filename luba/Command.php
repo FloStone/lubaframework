@@ -41,9 +41,10 @@ abstract class Command implements CommandInterface
 	 * @param  string $name
 	 * @return void
 	 */
-	public static function runCommand($name)
+	public static function runCommand($name, array $args = [])
 	{
 		$command = "Luba\Commands\\$name";
+		$command::setArguments($args);
 
 		if (!class_exists($command))
 			throw new \Exception("Command $name not found!");
@@ -68,9 +69,9 @@ abstract class Command implements CommandInterface
 	 * @param  string $name
 	 * @return void
 	 */
-	public function exec($name)
+	public function exec($name, array $args = [])
 	{
-		static::runCommand($name);
+		static::runCommand($name, $args);
 	}
 
 	/**

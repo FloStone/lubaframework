@@ -103,4 +103,14 @@ class Input implements SingletonInterface
 
 		return $inputs;
 	}
+
+    /*
+     * Build a query string with modified/additional parameters
+     */
+    public static function buildQuery($additional = [])
+    {
+        $query = self::get();
+        $query = array_merge($query, $additional);
+        return http_build_query($query);
+    }
 }

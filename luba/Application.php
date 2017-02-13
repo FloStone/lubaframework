@@ -54,6 +54,7 @@ class Application extends Luba implements SingletonInterface
 	 */
 	public function __construct($basepath)
 	{
+		Session::start();
 		if (class_exists(\Luba\ExceptionHandler::class))
 		{
 			set_exception_handler([new \Luba\ExceptionHandler, 'handle']);
@@ -72,7 +73,6 @@ class Application extends Luba implements SingletonInterface
 		$this->input = new Input;
 		$this->router = new Router\Router;
 
-		Session::start();
 	}
 
 	/**

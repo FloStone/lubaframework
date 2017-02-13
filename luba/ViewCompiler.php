@@ -46,10 +46,11 @@ class ViewCompiler
 
 	protected $variables = [];
 
-	public function __construct($template, $variables = [])
+	public function __construct($template, $variables = [], $customPath = NULL)
 	{
 		$this->template = $template;
-		$this->variables = [];
+		$this->variables = $variables;
+        $this->customPath = $customPath;
 	}
 
 	public function compile()
@@ -60,7 +61,7 @@ class ViewCompiler
 
 		if ($parent)
 		{
-			$parentCompiled = (new View($parent, $this->variables))->render();
+			$parentCompiled = (new View($parent, $this->variables, $this->customPath))->render();
 			$file = $this->insertIntoParent($parentCompiled, $file);
 		}
 
@@ -102,7 +103,7 @@ class ViewCompiler
 			return false;
 
 		$parent = str_replace(['<parent::', '>'], '', $matches[0]);
-		
+
 		return $parent;
 	}
 
@@ -140,6 +141,7 @@ class ViewCompiler
 			else
 				throw new TemplateNotFoundException($template);
 
+            $template = str_replace("/", "\/", $template);
 			$file = preg_replace("/<include\s+$template>/", $templateFile, $file);
 		}
 
@@ -150,7 +152,7 @@ class ViewCompiler
 	{
 
 		preg_match_all('/<insert::(\w*)>/', $view, $matches);
-		
+
 		foreach ($matches[0] as $match)
 		{
 			$view = str_replace($match, '', $view);
