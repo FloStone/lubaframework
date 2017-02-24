@@ -56,7 +56,12 @@ class SelectField extends FormField
 
 		foreach ($this->options as $value => $name)
 		{
-			if ($this->default !== null && in_array($value, $this->default))
+            $strict = false;
+            if($value == 0) {
+                //Strange php behaviour needs this on in_array(0, ["somestring"])
+                $strict = true;
+            }
+			if ($this->default !== null && in_array($value, $this->default, true))
 				$select = "$select<option value=\"$value\" selected>$name</option>\r\n";
 			else
 				$select = "$select<option value=\"$value\">$name</option>\r\n";
