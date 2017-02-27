@@ -61,7 +61,7 @@ class SelectField extends FormField
                 //Strange php behaviour needs this on in_array(0, ["somestring"])
                 $strict = true;
             }
-			if ($this->default !== null && in_array($value, $this->default, true))
+			if ($this->default !== null && in_array($value, $this->default, $strict))
 				$select = "$select<option value=\"$value\" selected>$name</option>\r\n";
 			else
 				$select = "$select<option value=\"$value\">$name</option>\r\n";
