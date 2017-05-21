@@ -226,6 +226,26 @@ class Form
 		return $select;
 	}
 
+    /**
+     * Add a optionset field
+     *
+     * @param string $name
+     * @param array $options
+     * @param string $default
+     * @param array $attributes
+     * @return SelectField
+     */
+    public function optionset($name, array $options = [], $default = NULL, array $attributes = [], $nobind = false)
+    {
+        if ($this->bind && !$nobind)
+            $default = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
+
+        $select = new OptionsetField($name, $options, $default, $attributes);
+        $this->fields[] = $select;
+
+        return $select;
+    }
+
 	/**
 	 * Add a file field
 	 *
