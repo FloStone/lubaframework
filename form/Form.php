@@ -260,6 +260,20 @@ class Form
 		return $this->inputField(self::TYPE_FILE, $name, NULL, $attributes, [], true);
 	}
 
+    /**
+     * Add a literal field
+     *
+     * @param string $name
+     * @param array $attributes
+     * @return InputField
+     */
+    public function literal($name, $content)
+    {
+        $field = new LiteralField($name, $content);
+        $this->fields[] = $field;
+        return $field;
+    }
+
 	/**
 	 * Add a password field
 	 *
