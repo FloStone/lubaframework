@@ -301,6 +301,21 @@ class Form
 		return $formfield;
 	}
 
+    /**
+     * Add a button
+     *
+     * @param string $name
+     * @param string $value
+     * @param array $attributes
+     * @return InputField
+     */
+    public function button($value, $title, array $attributes = [])
+    {
+        $formfield = new Button($value, $title, $attributes);
+        $this->actions[] = $formfield;
+        return $formfield;
+    }
+
 	/**
 	 * Validate form fields
 	 *
