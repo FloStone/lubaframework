@@ -1,6 +1,6 @@
 <?php
 
-use Flo\MySQL\MySQL;
+use FloStone\MySQL\MySQL;
 
 class SQL
 {
