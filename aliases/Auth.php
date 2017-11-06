@@ -6,5 +6,5 @@ class Auth
 {
 	use StaticCallable;
 
-	protected static $class = "Luba\Framework\Auth";
+	protected static $class = \Luba\Framework\Auth::class;
 }

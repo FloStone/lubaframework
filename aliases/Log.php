@@ -1,8 +1,10 @@
 <?php
 
-use Luba\Framework\Log as BaseLog;
+use Luba\Traits\StaticCallable;
 
-class Log extends BaseLog
+class Log
 {
+	use StaticCallable;
 
+	protected static $class = \Luba\Framework\Log::class;
 }

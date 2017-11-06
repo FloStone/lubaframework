@@ -1,8 +1,10 @@
 <?php
 
-use Luba\Framework\Session as BaseSession;
+use Luba\Traits\StaticCallable;
 
-class Session extends BaseSession
+class Session
 {
-	
+	use StaticCallable;
+
+	protected static $class = \Luba\Framework\Session::class;
 }

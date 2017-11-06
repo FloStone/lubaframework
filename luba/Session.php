@@ -4,33 +4,33 @@ namespace Luba\Framework;
 
 class Session
 {
-	public static function start()
+	public function start()
 	{
 		session_start();
 	}
 
-	public static function get($key)
+	public function get($key)
 	{
 		return isset($_SESSION[$key]) ? $_SESSION[$key] : NULL;
 	}
 
-	public static function set($key, $value)
+	public function set($key, $value)
 	{
 		$_SESSION[$key] = $value;
 	}
 
-	public static function remove($key)
+	public function remove($key)
 	{
 		if (isset($_SESSION[$key]))
 			unset($_SESSION[$key]);
 	}
 
-	public static function has($key)
+	public function has($key)
 	{
 		return isset($_SESSION[$key]);
 	}
 
-	public static function flush()
+	public function flush()
 	{
 		foreach($_SESSION as $key => $value)
 		{
@@ -38,12 +38,12 @@ class Session
 		}
 	}
 
-	public static function destroy()
+	public function destroy()
 	{
 		session_destroy();
 	}
 
-	public static function all()
+	public function all()
 	{
 		return $_SESSION;
 	}

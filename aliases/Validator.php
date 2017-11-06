@@ -1,8 +1,10 @@
 <?php
 
-use Luba\Framework\Validator as BaseValidator;
+use Luba\Traits\StaticCallable;
 
-class Validator extends BaseValidator
+class Validator
 {
-	
+	use StaticCallable;
+
+	protected static $class = \Luba\Framework\Validator::class;
 }

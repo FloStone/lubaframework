@@ -2,7 +2,7 @@
 
 namespace Luba\Framework\Router;
 
-use Flo\MySQL\Collection;
+use FloStone\MySQL\Collection;
 
 class RouteCollection extends Collection
 {

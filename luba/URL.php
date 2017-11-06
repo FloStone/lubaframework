@@ -4,6 +4,7 @@ namespace Luba\Framework;
 
 use Luba\Traits\Singleton;
 use Luba\Interfaces\SingletonInterface;
+use Session;
 
 class URL implements SingletonInterface
 {

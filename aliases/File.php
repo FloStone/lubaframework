@@ -1,8 +1,10 @@
 <?php
 
-use Luba\Framework\File;
+use Luba\Traits\StaticCallable;
 
-class File extends BaseFile
+class File
 {
-	
+	use StaticCallable;
+
+	protected static $class = \Luba\Framework\File::class;
 }
