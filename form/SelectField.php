@@ -26,7 +26,7 @@ class SelectField extends FormField
 	 * @param string $default
 	 * @param array $attributes
 	 */
-	public function __construct($name, array $options = [], $default = NULL, array $attributes = [])
+	public function __construct(string $name, array $options = [], string $default = NULL, array $attributes = [])
 	{
 		$this->name = $name;
 		$this->options = $options;
@@ -42,7 +42,7 @@ class SelectField extends FormField
 	 *
 	 * @return array
 	 */
-	public function render()
+	public function render() : array
 	{
         $id = $this->name;
 		$name = $this->name;

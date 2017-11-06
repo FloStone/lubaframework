@@ -14,19 +14,19 @@ class Label
 
 	protected $attributes = [];
 
-	public function __construct($name, $value, $attributes = [])
+	public function __construct(string $name, string $value, array $attributes = [])
 	{
 		$this->name = $name;
 		$this->value = $value;
 		$this->attributes = $attributes;
 	}
 
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}
 
-	public function render()
+	public function render() : array
 	{
 		$attributes = $this->renderAttributes($this->attributes);
 		return [

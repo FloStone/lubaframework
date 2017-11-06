@@ -4,8 +4,7 @@ namespace Luba\Form;
 
 use Luba\Framework\View;
 use Luba\Traits\RenderAttributes;
-use Luba\Framework\Validator;
-use Luba\Framework\Session;
+use Validator, Session;
 
 class Form
 {
@@ -91,7 +90,7 @@ class Form
 	 * @param string $action
 	 * @return void
 	 */
-	public function __construct($action = NULL, array $attributes = [])
+	public function __construct(string $action = NULL, array $attributes = [])
 	{
 		$this->attributes = $attributes;
 		$this->templates = defined('FORM_TEMPLATES') ? FORM_TEMPLATES : __DIR__.'/templates/';
@@ -110,7 +109,7 @@ class Form
      * @param string $method
      * @return void
      */
-    public function templates($templates)
+    public function templates(string $templates)
     {
         $this->templates = $templates;
     }
@@ -121,7 +120,7 @@ class Form
 	 * @param string $method
 	 * @return void
 	 */
-	public function method($method)
+	public function method(string $method)
 	{
 		$this->method = $method;
 	}
@@ -132,7 +131,7 @@ class Form
 	 * @param string $path
 	 * @return void
 	 */
-	public function template($path)
+	public function template(string $path)
 	{
 		$this->templates = $path;
 	}
@@ -157,7 +156,7 @@ class Form
 	 * @param array $attributes
 	 * @return InputField
 	 */
-	public function hidden($name, $value = NULL, array $attributes = [], $nobind = false)
+	public function hidden(string $name, string $value = NULL, array $attributes = [], bool $nobind = false) : InputField
 	{
 		return $this->inputField(self::TYPE_HIDDEN, $name, $value, $attributes, [], $nobind);
 	}
@@ -171,7 +170,7 @@ class Form
 	 * @param array $attributes
 	 * @return InputField
 	 */
-	public function checkbox($name, $value = NULL, $checked = false, array $attributes = [])
+	public function checkbox(string $name, string $value = NULL, bool $checked = false, array $attributes = []) : InputField
 	{
 		$bind = $this->bind ? isset($this->bindings[$name]) ? $this->bindings[$name] : false : $checked;
 		return $this->inputField(self::TYPE_CHECKBOX, $name, $value, $attributes, $bind ? ['checked' => 'checked'] : []);
@@ -185,7 +184,7 @@ class Form
 	 * @param array $attributes
 	 * @return InputField
 	 */
-	public function text($name, $value = NULL, array $attributes = [])
+	public function text(string $name, string $value = NULL, array $attributes = []) : InputField
 	{
 		return $this->inputField(self::TYPE_TEXT, $name, $value, $attributes);
 	}
@@ -197,7 +196,7 @@ class Form
 	 * @param  array  $attributes
 	 * @return TextareaField
 	 */
-	public function textarea($name, $value = NULL, array $attributes = [])
+	public function textarea(string $name, string $value = NULL, array $attributes = []) : TextareaField
 	{
 		$bind = $this->bind ? isset($this->bindings[$name]) ? $this->bindings[$name] : NULL : NULL;
 		$textarea = new TextareaField($name, $value, $attributes, $bind);
@@ -215,7 +214,7 @@ class Form
 	 * @param array $attributes
 	 * @return SelectField
 	 */
-	public function select($name, array $options = [], $default = NULL, array $attributes = [], $nobind = false)
+	public function select(string $name, array $options = [], $default = NULL, array $attributes = [], bool $nobind = false) : SelectField
 	{
 		if ($this->bind && !$nobind)
 			$default = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
@@ -235,7 +234,7 @@ class Form
      * @param array $attributes
      * @return SelectField
      */
-    public function optionset($name, array $options = [], $default = NULL, array $attributes = [], $nobind = false)
+    public function optionset(string $name, array $options = [], $default = NULL, array $attributes = [], bool $nobind = false) : OptionsetField
     {
         if ($this->bind && !$nobind)
             $default = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
@@ -253,7 +252,7 @@ class Form
 	 * @param array $attributes
 	 * @return InputField
 	 */
-	public function file($name, array $attributes = [])
+	public function file(string $name, array $attributes = []) : InputField
 	{
 		$this->files = true;
 
@@ -267,7 +266,7 @@ class Form
      * @param array $attributes
      * @return InputField
      */
-    public function literal($name, $content)
+    public function literal(string $name, string $content) : LiteralField
     {
         $field = new LiteralField($name, $content);
         $this->fields[] = $field;
@@ -281,7 +280,7 @@ class Form
 	 * @param array $attributes
 	 * @return InputField
 	 */
-	public function password($name, array $attributes = [])
+	public function password(string $name, array $attributes = []) : InputField
 	{
 		return $this->inputField(self::TYPE_PASSWORD, $name, NULL, $attributes);
 	}
@@ -294,7 +293,7 @@ class Form
 	 * @param array $attributes
 	 * @return InputField
 	 */
-	public function submit($name, $value = NULL, array $attributes = [])
+	public function submit(string $name, string $value = NULL, array $attributes = []) : InputField
 	{
         $formfield = new InputField('submit', $name, $value, $attributes);
         $this->actions[] = $formfield;
@@ -309,7 +308,7 @@ class Form
      * @param array $attributes
      * @return InputField
      */
-    public function button($value, $title, array $attributes = [])
+    public function button(string $value, string $title, array $attributes = []) : Button
     {
         $formfield = new Button($value, $title, $attributes);
         $this->actions[] = $formfield;
@@ -321,7 +320,7 @@ class Form
 	 *
 	 * @return bool
 	 */
-	public function validate()
+	public function validate() : bool
 	{
 		$validator = new Validator($this);
 
@@ -336,7 +335,7 @@ class Form
 	 * @param array $attributes
 	 * @return void
 	 */
-	public function label($name, $value = NULL, array $attributes = [])
+	public function label(string $name, string $value = NULL, array $attributes = []) : Label
 	{
 		$label = new Label($name, $value, $attributes);
 
@@ -353,7 +352,7 @@ class Form
 	 * @param array $other
 	 * @return InputField
 	 */
-	public function inputField($type, $name, $value = NULL, array $attributes = [], array $other = [], $nobind = false)
+	public function inputField(string $type, string $name, string $value = NULL, array $attributes = [], array $other = [], bool $nobind = false) : InputField
 	{
 		if ($this->bind && !$nobind)
 			$value = isset($this->bindings[$name]) ? $this->bindings[$name] : NULL;
@@ -369,7 +368,7 @@ class Form
 	 *
 	 * @return string
 	 */
-	public static function token()
+	public static function token() : string
 	{
 		$token = str_random(9);
 		Session::set('__formtoken', $token);
@@ -383,7 +382,7 @@ class Form
 	 * @param string $action
 	 * @return void
 	 */
-	public function action($action)
+	public function action(string $action)
 	{
 		$this->action = $action;
 	}
@@ -393,7 +392,7 @@ class Form
 	 *
 	 * @return array
 	 */
-	public function fields()
+	public function fields() : array
 	{
 		return $this->fields;
 	}
@@ -403,7 +402,7 @@ class Form
 	 *
 	 * @return string
 	 */
-	public function getMethod()
+	public function getMethod() : string
 	{
 		return $this->method;
 	}
@@ -413,7 +412,7 @@ class Form
 	 *
 	 * @return View
 	 */
-	public function render()
+	public function render() : View
 	{
 		$this->makeTokenField();
 		$rendered = [];
@@ -468,7 +467,7 @@ class Form
 	 *
 	 * @return string
 	 */
-	public function __tostring()
+	public function __tostring() : string
 	{
 		return (string)$this->render();
 	}

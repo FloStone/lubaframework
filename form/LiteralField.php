@@ -11,21 +11,16 @@ class LiteralField extends FormField
      */
     protected $content;
 
-    public function __construct($name, $content)
+    public function __construct(string $name, string $content)
     {
         $this->name = $name;
         $this->content = $content;
     }
 
-    public function render()
+    public function render() : array
     {
         $content = $this->content;
-        return ['label'=>'', 'field' => $content, 'type' => 'literal'];
 
-        // return [
-        //     'label' => is_null($label) ? "" : "<label for=\"$name\" $labelAttributes>$label</label>",
-        //     'field' => "<textarea name=\"$name\" id=\"$name\" $attributes>$value</textarea>",
-        //     'type' => 'textarea'
-        // ];
+        return ['label'=>'', 'field' => $content, 'type' => 'literal'];
     }
 }

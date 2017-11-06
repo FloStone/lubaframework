@@ -51,7 +51,7 @@ abstract class FormField
 	 * @param array $attributes
 	 * @return this
 	 */
-	public function label($title, array $attributes = [])
+	public function label(string $title, array $attributes = []) : FormField
 	{
 		$this->label = $title;
 		$this->labelAttributes = $attributes;
@@ -64,7 +64,7 @@ abstract class FormField
 	 *
 	 * @return thiss
 	 */
-	public function required()
+	public function required() : FormField
 	{
 		$this->addValidatorAttribute(Validator::REQUIRED);
 
@@ -76,7 +76,7 @@ abstract class FormField
 	 *
 	 * @return this
 	 */
-	public function numeric()
+	public function numeric() : FormField
 	{
 		$this->addValidatorAttribute(Validator::NUMERIC);
 
@@ -89,7 +89,7 @@ abstract class FormField
 	 * @param string $requirement
 	 * @return this
 	 */
-	public function requiredWith($requirement)
+	public function requiredWith(string $requirement) : FormField
 	{
 		$this->addValidatorAttribute(Validator::REQUIRED_WITH . $requirement);
 
@@ -102,7 +102,7 @@ abstract class FormField
 	 * @param string $requirement
 	 * @return this
 	 */
-	public function requiredWithout($requirement)
+	public function requiredWithout(string $requirement) : FormField
 	{
 		$this->addValidatorAttribute(Validator::REQUIRED_WITHOUT . $requirement);
 
@@ -114,7 +114,7 @@ abstract class FormField
 	 *
 	 * @return this
 	 */
-	public function email()
+	public function email() : FormField
 	{
 		$this->addValidatorAttribute(Validator::EMAIL);
 
@@ -127,7 +127,7 @@ abstract class FormField
 	 * @param string $attribute
 	 * @return void
 	 */
-	public function addValidatorAttribute($attribute)
+	public function addValidatorAttribute(string $attribute)
 	{
 		if (!array_search($attribute, $this->validatorAttributes))
 			$this->validatorAttributes[] = $attribute;
@@ -138,7 +138,7 @@ abstract class FormField
 	 *
 	 * @return array
 	 */
-	public function getValidatorAttributes()
+	public function getValidatorAttributes() : array
 	{
 		return $this->validatorAttributes;
 	}
@@ -148,7 +148,7 @@ abstract class FormField
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}

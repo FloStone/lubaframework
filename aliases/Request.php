@@ -6,7 +6,7 @@ class Request
 {
 	use StaticCallable;
 
-	protected static $class = "Luba\Framework\Request";
+	protected static $class = \Luba\Framework\Request::class;
 
 	protected static $singleton = true;
 }

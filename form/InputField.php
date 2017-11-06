@@ -37,7 +37,7 @@ class InputField extends FormField
 	 * @param array $other
 	 * @return void
 	 */
-	public function __construct($type, $name, $value = NULL, array $attributes = [], array $other = [])
+	public function __construct(string $type, string $name, string $value = NULL, array $attributes = [], array $other = [])
 	{
 		$this->type = $type;
 		$this->name = $name;
@@ -51,7 +51,7 @@ class InputField extends FormField
 	 *
 	 * @return array
 	 */
-	public function render()
+	public function render() : array
 	{
 		$label = $this->label;
 		$type = $this->type;

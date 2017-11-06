@@ -4,7 +4,7 @@ namespace Luba\Exceptions;
 
 class ControllerNotFoundException extends \Exception
 {
-	public function __construct($controller)
+	public function __construct(string $controller)
 	{
 		http_response_code(500);
 		parent::__construct("Class $controller not found!");

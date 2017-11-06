@@ -4,7 +4,7 @@ namespace Luba\Exceptions;
 
 class ControllerActionNotFoundException extends \Exception
 {
-	public function __construct($action, $controller)
+	public function __construct(string $action, string $controller)
 	{
 		http_response_code(404);
 		parent::__construct("Action \"$action\" does not exist in $controller");

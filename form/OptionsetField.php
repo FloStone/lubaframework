@@ -11,7 +11,7 @@ class OptionsetField extends SelectField
      *
      * @return array
      */
-    public function render()
+    public function render() : array
     {
         $id = $this->name;
         $name = $this->name;
