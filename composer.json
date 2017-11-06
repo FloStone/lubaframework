@@ -8,9 +8,9 @@
         }
     ],
     "require": {
-        "symfony/var-dumper": "dev-master",
-        "flostone/mysql": "dev-master",
-        "Lubaaddons/Exceptionhandler": "dev-master"
+        "symfony/var-dumper": "3.4.x-dev",
+        "flostone/mysql": "2.0.*",
+        "Lubaaddons/Exceptionhandler": "1.0.0"
     },
     "autoload": {
         "files": [
