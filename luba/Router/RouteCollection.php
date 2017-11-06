@@ -30,22 +30,22 @@ class RouteCollection extends Collection
 		$this->data['callbacks'][$callback->uri()] = $callback;
 	}
 
-	public function findController($key)
+	public function findController(string $key)
 	{
 		return isset($this->data['controllers'][$key]) ? $this->data['controllers'][$key] : NULL;
 	}
 
-	public function findCallback($key)
+	public function findCallback(string $key)
 	{
 		return $this->findByRegex($key, 'callbacks');
 	}
 
-	public function findAction($key)
+	public function findAction(string $key)
 	{
 		return $this->findByRegex($key, 'actions');
 	}
 
-	public function findByRegex($key, $type)
+	public function findByRegex(string $key, string$type)
 	{
 		foreach ($this->data[$type] as $url => $action)
 		{

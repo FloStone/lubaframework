@@ -2,9 +2,7 @@
 
 namespace Luba\Framework\Router;
 
-use Luba\Exceptions\HttpNotFoundException;
-use Luba\Exceptions\ControllerActionNotFoundException;
-
+use Luba\Exceptions\{HttpNotFoundException, ControllerActionNotFoundException};
 use Luba\Framework\URL;
 
 class Router
@@ -52,7 +50,7 @@ class Router
 	 *
 	 * @return void
 	 */
-	public function getRoutes()
+	public function getRoutes() : RouteCollection
 	{
 		$routes = include base_path('routes.php');
 

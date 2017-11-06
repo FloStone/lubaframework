@@ -4,7 +4,7 @@ namespace Luba\Traits;
 
 trait RenderAttributes
 {
-	public function renderAttributes($attributes)
+	public function renderAttributes(array $attributes)
 	{
 		$arr = [];
 

@@ -1,10 +1,8 @@
 <?php
 
 use Symfony\Component\VarDumper\VarDumper;
-use Flo\MySQL\MySQL;
-use Luba\Framework\Application;
-use Luba\Framework\View;
-use Luba\Framework\URL;
+use FloStone\MySQL\MySQL;
+use Luba\Framework\{Application, View, URL, Controller};
 
 define('HUHU', 'HUHU');
 
@@ -22,7 +20,7 @@ if (!function_exists('dd'))
 		array_map(function($x){
 			(New VarDumper)->dump($x);
 		}, $args);
-		
+
 		die;
 	}
 }
@@ -35,7 +33,7 @@ if (!function_exists('dd'))
  */
 if (!function_exists('controller'))
 {
-	function controller($name)
+	function controller(string $name) : Controller
 	{
 		$controller = '\\Luba\\Controllers\\'.$name;
 		return new $controller;
@@ -50,7 +48,7 @@ if (!function_exists('controller'))
  */
 if (!function_exists('base_path'))
 {
-	function base_path($path = NULL)
+	function base_path(string $path = NULL) : string
 	{
 		return app()->basePath() . $path;
 	}
@@ -64,7 +62,7 @@ if (!function_exists('base_path'))
  */
 if (!function_exists('public_path'))
 {
-	function public_path($path = NULL)
+	function public_path(string $path = NULL) : string
 	{
 		return base_path('public/') . ltrim($path, '/');
 	}
@@ -78,7 +76,7 @@ if (!function_exists('public_path'))
  */
 if (!function_exists('asset'))
 {
-	function asset($asset)
+	function asset(string $asset) : string
 	{
 		$asset = ltrim($asset, '/');
 		return rtrim(url("$asset"), '/');
@@ -94,7 +92,7 @@ if (!function_exists('asset'))
  */
 if (!function_exists('url'))
 {
-	function url($uri = NULL, array $params = [])
+	function url(string $uri = NULL, array $params = []) : string
 	{
 		return URL::getInstance()->make($uri, $params);
 	}
@@ -108,7 +106,7 @@ if (!function_exists('url'))
  */
 if (!function_exists('view_path'))
 {
-	function view_path($path)
+	function view_path(string $path) : string
 	{
 		return base_path('views/') . $path;
 	}
@@ -122,7 +120,7 @@ if (!function_exists('view_path'))
  */
 if (!function_exists('storage_path'))
 {
-	function storage_path($path = '')
+	function storage_path(string $path = '') : string
 	{
 		return base_path('storage/') . $path;
 	}
@@ -135,9 +133,9 @@ if (!function_exists('storage_path'))
  */
 if (!function_exists('app'))
 {
-	function app()
+	function app() : Application
 	{
-		return Luba\Framework\Application::getInstance();
+		return Application::getInstance();
 	}
 }
 
@@ -149,7 +147,7 @@ if (!function_exists('app'))
  */
 if (!function_exists('e'))
 {
-	function e($string)
+	function e(string $string) : string
 	{
 		echo htmlspecialchars($string);
 	}
@@ -163,7 +161,7 @@ if (!function_exists('e'))
  */
 if (!function_exists('str_random'))
 {
-	function str_random($length = 10)
+	function str_random(int $length = 10) : string
 	{
 	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	    $charactersLength = strlen($characters);

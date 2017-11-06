@@ -24,7 +24,7 @@ class Route
 
 	protected $method;
 
-	public function __construct($uri, $action)
+	public function __construct(string $uri, $action)
 	{
 		$this->uri = $uri;
 		$this->action = $action;
@@ -83,17 +83,29 @@ class Route
 		$this->fullUri = "/$uri/";
 	}
 
-	public function isAction()
+	/**
+	 * Check if route is action
+	 * @return boolean
+	 */
+	public function isAction() : bool
 	{
 		return $this->type == self::CONTROLLER_ACTION;
 	}
 
-	public function isCallback()
+	/**
+	 * Check if route is callback
+	 * @return boolean
+	 */
+	public function isCallback() : bool
 	{
 		return $this->type == self::CALLBACK;
 	}
 
-	public function isController()
+	/**
+	 * Check if route is controller
+	 * @return boolean
+	 */
+	public function isController() : bool
 	{
 		return $this->type == self::CONTROLLER;
 	}
@@ -103,7 +115,11 @@ class Route
 		return $this->uri;
 	}
 
-	public function fullUri()
+	/**
+	 * Get the full url
+	 * @return string
+	 */
+	public function fullUri() : string
 	{
 		return $this->fullUri;
 	}
@@ -118,12 +134,12 @@ class Route
 		return $this->controller;
 	}
 
-	public function method()
+	public function method() : string
 	{
 		return $this->method;
 	}
 
-	public function params()
+	public function params() : array
 	{
 		return $this->parameters;
 	}

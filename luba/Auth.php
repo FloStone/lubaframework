@@ -7,14 +7,14 @@ use SQL;
 
 class Auth
 {
-	public function login($username, $password)
+	public function login(string $username, string $password)
 	{
 		return $this->loginQuery(function($query) use ($username, $password){
 			$query->where(AUTH_USERNAME_COLUMN, addslashes($username))->where(AUTH_PASSWORD_COLUMN, static::hash($password));
 		});
 	}
 
-	public function check()
+	public function check() : bool
 	{
 		return Session::has('__auth_user');
 	}

@@ -52,7 +52,7 @@ class Application extends Luba implements SingletonInterface
 	 *
 	 * @param string $basepath
 	 */
-	public function __construct($basepath)
+	public function __construct(string $basepath)
 	{
 		Session::start();
 		if (class_exists(\Luba\ExceptionHandler::class))
@@ -62,12 +62,12 @@ class Application extends Luba implements SingletonInterface
 		}
 		else
 			set_exception_handler([$this, 'handleException']);
-		
+
 		self::setInstance($this);
 		$this->basePath = $basepath;
 
 		parent::__construct();
-		
+
 		$this->request = new Request;
 		$this->url = new URL;
 		$this->input = new Input;
@@ -111,12 +111,12 @@ class Application extends Luba implements SingletonInterface
 	 *
 	 * @return string
 	 */
-	public function basePath()
+	public function basePath() : string
 	{
 		return $this->basePath;
 	}
 
-	public function url()
+	public function url() : URL
 	{
 		return $this->url;
 	}
