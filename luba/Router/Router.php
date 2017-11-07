@@ -54,19 +54,8 @@ class Router
 	{
 		$routes = include base_path('routes.php');
 
-		$collection = new RouteCollection;
+		$collection = new RouteCollection($routes);
 
-		foreach ($routes as $uri => $action)
-		{
-			$route = new Route($uri, $action);
-			if ($route->isAction())
-				$collection->addAction($route);
-			elseif ($route->isCallback())
-				$collection->addCallback($route);
-			elseif ($route->isController())
-				$collection->addController($route);
-		}
-		
 		return $collection;
 	}
 
@@ -84,7 +73,7 @@ class Router
 		// Return a public file or asset if exists
 		if (file_exists(public_path($url->uri())) && is_file(public_path($url->uri())))
 			return public_path($url->uri());
-		
+
 		// Controller binding
 		$action = $this->routeCollection->findController($url->routeKey());
 
@@ -137,7 +126,7 @@ class Router
 	public function routeCallback(Route $action)
 	{
 		$callback = $action->getAction();
-		
+
 		$parameters = $this->getparameters($action);
 
 		return call_user_func_array($callback, $parameters);
@@ -156,7 +145,7 @@ class Router
 	{
 		$uri = URL::getInstance()->uri();
 		$pattern = str_replace('/', '\/', ltrim(rtrim($action->fullUri(), '/'), '/'));
-		
+
 		preg_match("/$pattern/", $uri, $matches);
 
 		array_shift($matches);

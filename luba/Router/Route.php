@@ -24,10 +24,11 @@ class Route
 
 	protected $method;
 
-	public function __construct(string $uri, $action)
+	public function __construct(string $uri, string $action, string $type = null)
 	{
 		$this->uri = $uri;
 		$this->action = $action;
+		$this->type = $type;
 		$this->make();
 	}
 
@@ -35,45 +36,39 @@ class Route
 	{
 		$baseUri = $this->uri;
 
-		if (is_string($this->action))
-		{
+		if ($this->type == self::CONTROLLER)
 			$this->makeStringAction();
-		}
-		elseif (is_callable($this->action))
-		{
+		elseif ($this->type == self::CONTROLLER_ACTION)
+			$this->makeControllerAction();
+		elseif ($this->type == self::CALLBACK)
 			$this->makeCallableAction();
-		}
 	}
 
 	public function makeStringAction()
 	{
-		if (strpos($this->action, '@') !== false)
-		{
-			$this->type = self::CONTROLLER_ACTION;
+		$this->type = self::CONTROLLER;
+		$this->controller = $this->action;
+		$this->fullUri = "/{$this->uri}/{action}/*/";
 
-			$explode = explode('@', $this->action);
-			$explodeBak = $explode;
-			$class = array_shift($explode);
-			$method = array_shift($explode);
+		$uri = URL::getInstance()->uri();
+		$this->method = URL::getInstance()->controllerAction();
+		$this->parameters = URL::getInstance()->params();
+	}
 
-			$this->controller = $class;
-			$this->method = $method;
+	public function makeControllerAction()
+	{
+		$explode = explode('@', $this->action);
+		$explodeBak = $explode;
+		$class = array_shift($explode);
+		$method = array_shift($explode);
 
-			preg_match_all('/{(\w*)}/', $this->uri, $params);
-			$params = $params[1];
+		$this->controller = $class;
+		$this->method = $method;
 
-			$this->fullUri = $this->uri == '/' ? '/' : "/" . $this->uri . "/";
-		}
-		else
-		{
-			$this->type = self::CONTROLLER;
-			$this->controller = $this->action;
-			$this->fullUri = "/{$this->uri}/{action}/*/";
+		preg_match_all('/{(\w*)}/', $this->uri, $params);
+		$params = $params[1];
 
-			$uri = URL::getInstance()->uri();
-			$this->method = URL::getInstance()->controllerAction();
-			$this->parameters = URL::getInstance()->params();
-		}
+		$this->fullUri = $this->uri == '/' ? '/' : "/" . $this->uri . "/";
 	}
 
 	public function makeCallableAction()

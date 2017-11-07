@@ -6,13 +6,39 @@ use FloStone\MySQL\Collection;
 
 class RouteCollection extends Collection
 {
-	public function __construct()
+	public function __construct(array $routes = [])
 	{
 		$this->data = [
 			'actions' => [],
 			'controllers' => [],
 			'callbacks' => []
 		];
+
+		if (isset($routes['callbacks']))
+		{
+			foreach ($routes['callbacks'] as $uri => $action)
+			{
+				$route = new Route($uri, $action, Route::CALLBACK);
+				$this->addCallback($route);
+			}
+		}
+
+		if (isset($routes['actions']))
+		{
+			foreach ($routes['actions'] as $uri => $action)
+			{
+				$route = new Route($uri, $action, Route::CONTROLLER_ACTION);
+				$this->addAction($route);
+			}
+		}
+		if (isset($routes['controllers']))
+		{
+			foreach ($routes['controllers'] as $uri => $action)
+			{
+				$route = new Route($uri, $action, Route::CONTROLLER);
+				$this->addController($route);
+			}
+		}
 	}
 
 	public function addController(Route $controller)
