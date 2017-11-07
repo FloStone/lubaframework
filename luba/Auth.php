@@ -3,14 +3,14 @@
 namespace Luba\Framework;
 
 use Flo\MySQL\MySQLResult;
-use SQL;
+use SQL, Config;
 
 class Auth
 {
 	public function login(string $username, string $password)
 	{
 		return $this->loginQuery(function($query) use ($username, $password){
-			$query->where(AUTH_USERNAME_COLUMN, addslashes($username))->where(AUTH_PASSWORD_COLUMN, static::hash($password));
+			$query->where(Config::get('AUTH_USERNAME_COLUMN'), addslashes($username))->where(Config::get('AUTH_PASSWORD_COLUMN'), static::hash($password));
 		});
 	}
 
@@ -26,7 +26,7 @@ class Auth
 
 	public function hash($string)
 	{
-		return hash(AUTH_HASH, $string);
+		return hash(Config::get('AUTH_HASH'), $string);
 	}
 
 	public function loginWithId($id)
@@ -49,7 +49,7 @@ class Auth
 
 	public function loginQuery(callable $query)
 	{
-		$user = SQL::table(AUTH_TABLE)->select();
+		$user = SQL::table(Config::get('AUTH_TABLE'))->select();
 
 		$query($user);
 

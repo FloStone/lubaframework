@@ -2,11 +2,10 @@
 
 namespace Luba\Exceptions;
 
-class TokenMismatchException extends \Exception
+class TokenMismatchException extends LubaException
 {
 	public function __construct()
 	{
-		http_response_code(500);
-		parent::__construct('Token Mismatch!');
+		parent::__construct('Token Mismatch!', 500);
 	}
 }

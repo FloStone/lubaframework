@@ -2,7 +2,7 @@
 
 namespace Luba\Framework;
 
-use Flo\MySQL\Collection;
+use FloStone\MySQL\Collection as BaseCollection;
 
 class Collection extends BaseCollection
 {

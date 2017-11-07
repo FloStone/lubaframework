@@ -6,16 +6,22 @@ abstract class Luba
 {
 	public function __construct()
 	{
+		$this->setConfigInstance();
 		$this->loadconfigs();
 	}
 
-	public function loadconfigs()
+	final private function loadconfigs()
 	{
 		if (file_exists(base_path('config/config.php')))
 			require base_path('config/config.php');
 
 		if (file_exists(base_path('config/global.php')))
 			require base_path('config/global.php');
+	}
+
+	final private function setConfigInstance()
+	{
+		LubaConfig::init();
 	}
 
 	public static function command($command)

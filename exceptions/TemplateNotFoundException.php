@@ -2,11 +2,10 @@
 
 namespace Luba\Exceptions;
 
-class TemplateNotFoundException extends \Exception
+class TemplateNotFoundException extends LubaException
 {
 	public function __construct(string $template)
 	{
-		http_response_code(500);
-		parent::__construct("Template \"$template\" does not exist!");
+		parent::__construct("Template \"$template\" does not exist!", 500);
 	}
 }
