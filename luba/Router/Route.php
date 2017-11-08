@@ -50,9 +50,11 @@ class Route
 		$this->controller = $this->action;
 		$this->fullUri = "/{$this->uri}/{action}/*/";
 
-		$uri = URL::getInstance()->uri();
-		$this->method = URL::getInstance()->controllerAction();
-		$this->parameters = URL::getInstance()->params();
+		$url = new URL;
+
+		$uri = $url->uri();
+		$this->method = $url->controllerAction();
+		$this->parameters = $url->params();
 	}
 
 	public function makeControllerAction()

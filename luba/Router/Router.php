@@ -68,7 +68,7 @@ class Router
 	public function make()
 	{
 		// Get the URL isntance
-		$url = URL::getInstance();
+		$url = new URL;
 		$uri = explode('/', rtrim(ltrim($url->uri(), '/'), '/'));
 		// Return a public file or asset if exists
 		if (file_exists(public_path($url->uri())) && is_file(public_path($url->uri())))
@@ -143,7 +143,7 @@ class Router
 
 	public function getParameters(Route $action)
 	{
-		$uri = URL::getInstance()->uri();
+		$uri = (new URL)->uri();
 		$pattern = str_replace('/', '\/', ltrim(rtrim($action->fullUri(), '/'), '/'));
 
 		preg_match("/$pattern/", $uri, $matches);

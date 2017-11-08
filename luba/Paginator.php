@@ -105,8 +105,9 @@ class Paginator implements IteratorAggregate
 
 	public function pagelink($number)
 	{
+		$url = new URL;
 		$active = (Input::get($this->requestvar) ?: 1) == $number ? 'class="active"' : '';
-		$link = url(URL::getInstance()->uri(), array_merge(URL::getInstance()->inputs(), [$this->requestvar => $number]));
+		$link = url($url->uri(), array_merge($url->inputs(), [$this->requestvar => $number]));
 
 		return "<li><a href=\"$link\" $active>$number</a></li>";
 	}

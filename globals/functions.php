@@ -94,7 +94,7 @@ if (!function_exists('url'))
 {
 	function url(string $uri = NULL, array $params = []) : string
 	{
-		return URL::getInstance()->make($uri, $params);
+		return URL::make($uri, $params);
 	}
 }
 

@@ -2,14 +2,10 @@
 
 namespace Luba\Framework;
 
-use Luba\Traits\Singleton;
-use Luba\Interfaces\SingletonInterface;
 use Session;
 
-class URL implements SingletonInterface
+class URL
 {
-	use Singleton;
-
 	/**
 	 * Key for route mapping
 	 *
@@ -64,12 +60,14 @@ class URL implements SingletonInterface
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct($url = null, array $params = [])
 	{
-		self::setInstance($this);
 		$request = Request::getInstance();
 
-		$this->url = $request->scheme() . '://' . $request->root() . ltrim($request->uri(), '/');
+		if ($url)
+			$this->url = $this->parse($url, $params);
+		else
+			$this->url = $request->scheme() . '://' . $request->root() . ltrim($request->uri(), '/');
 		parse_str(parse_url($this->url, PHP_URL_QUERY), $this->inputs);
 		$this->uri = str_replace(str_replace("{$request->domain()}/" , '', $request->root()), '', ltrim(parse_url($this->url, PHP_URL_PATH), '/'));
 
@@ -78,7 +76,7 @@ class URL implements SingletonInterface
 
 		$uri = explode('/', ltrim($this->uri, '/'));
 		$routeKey = array_shift($uri);
-		
+
 		$this->routeKey = $routeKey == "" ? '/' : $routeKey;
 		$controllerAction = array_shift($uri);
 		$this->controllerAction = $controllerAction;
@@ -139,18 +137,8 @@ class URL implements SingletonInterface
 		return $this->inputs;
 	}
 
-	/**
-	 * Create an absloute URL
-	 *
-	 * @param string $uri
-	 * @param array $params
-	 * @return string
-	 */
-	public function make($uri = NULL, array $params = [])
+	public function parse($uri, array $params = [])
 	{
-		if ($uri instanceof self)
-			return $uri;
-
 		if (!empty($params))
 			$params = http_build_query($params);
 
@@ -163,6 +151,21 @@ class URL implements SingletonInterface
 			$uri = "$uri";
 
 		return empty($params) ? "$scheme://$root$uri": "$scheme://$root$uri?$params";
+	}
+
+	/**
+	 * Create an absloute URL
+	 *
+	 * @param string $uri
+	 * @param array $params
+	 * @return string
+	 */
+	public static function make($uri = NULL, array $params = [])
+	{
+		if ($uri instanceof self)
+			return $uri;
+
+		return new self($uri, $params);
 	}
 
 	public function other($url, array $params = [])
@@ -212,5 +215,10 @@ class URL implements SingletonInterface
 	public function previous()
 	{
 		return Session::has('__last_url') ? Session::get('__last_url') : null;
+	}
+
+	public function __toString()
+	{
+		return $this->full();
 	}
 }
