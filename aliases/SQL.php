@@ -1,7 +1,6 @@
 <?php
 
 use FloStone\MySQL\MySQL;
-use Config;
 
 class SQL
 {
