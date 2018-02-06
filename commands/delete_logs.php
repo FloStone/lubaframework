@@ -4,6 +4,8 @@ namespace Luba\Commands;
 
 class delete_logs extends Command
 {
+	public static $description = "Delete all Luba logs.";
+
 	public function run()
 	{
 		$files = glob(base_path('storage/logs/*'));

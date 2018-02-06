@@ -4,6 +4,8 @@ namespace Luba\Commands;
 
 class clear_compiled extends Command
 {
+	public static $description = "Clear compiled views.";
+
 	public function run()
 	{
 		$files = glob(base_path('storage/temp/*'));

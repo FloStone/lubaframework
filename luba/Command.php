@@ -25,6 +25,12 @@ abstract class Command implements CommandInterface
 	protected static $arguments = [];
 
 	/**
+	 * Command description
+	 * @var string
+	 */
+	public static $description = "";
+
+	/**
 	 * Set the command arguments
 	 * @param array $args
 	 */
