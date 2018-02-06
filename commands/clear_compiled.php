@@ -2,7 +2,7 @@
 
 namespace Luba\Commands;
 
-class ClearCompiled extends Command
+class clear_compiled extends Command
 {
 	public function run()
 	{
@@ -13,5 +13,7 @@ class ClearCompiled extends Command
 			if (is_file($file))
 				unlink($file);
 		}
+
+		$this->output("Remove compiled views.");
 	}
 }

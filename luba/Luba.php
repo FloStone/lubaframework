@@ -4,6 +4,8 @@ namespace Luba\Framework;
 
 abstract class Luba
 {
+	const VERSION = "2.0.0";
+
 	public function __construct()
 	{
 		$this->setConfigInstance();

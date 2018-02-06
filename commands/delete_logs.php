@@ -2,7 +2,7 @@
 
 namespace Luba\Commands;
 
-class DeleteLogs extends Command
+class delete_logs extends Command
 {
 	public function run()
 	{
@@ -13,5 +13,7 @@ class DeleteLogs extends Command
 			if (is_file($file))
 				unlink($file);
 		}
+
+		$this->output("Removed all logs.");
 	}
 }

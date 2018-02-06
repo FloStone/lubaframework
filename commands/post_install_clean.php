@@ -2,7 +2,7 @@
 
 namespace Luba\Commands;
 
-class PostInstallClean extends Command
+class post_install_clean extends Command
 {
 	public function run()
 	{
