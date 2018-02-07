@@ -1,0 +1,13 @@
+<?php
+
+namespace Luba\Commands;
+
+class %name% extends Command
+{
+	protected static $description = "Command description.";
+
+	public function run()
+	{
+		
+	}
+}

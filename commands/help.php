@@ -4,10 +4,11 @@ namespace Luba\Commands;
 
 class help extends Command
 {
-	public static $description = "\tShow command help.";
+	protected static $description = "\tShow command help.";
 
 	public function run()
 	{
+		$this->output("");
 		$this->output("Available Luba commands:");
 
 		$files = scandir(__DIR__);
@@ -19,7 +20,7 @@ class help extends Command
 
 			$command = $this->parseName($file);
 			$classname = "\Luba\Commands\\$command";
-			$description = $classname::$description;
+			$description = $classname::getDescription();
 			$this->output("\t" . $this->parseName($command) . "\t\t\t" . $description);
 		}
 
@@ -35,9 +36,11 @@ class help extends Command
 
 			$command = $this->parseName($file);
 			$classname = "\Luba\Commands\\$command";
-			$description = $classname::$description;
+			$description = $classname::getDescription();
 			$this->output("\t" . $this->parseName($command) . "\t\t\t" . $description);
 		}
+
+		$this->output("");
 	}
 
 	public function parseName(string $file)

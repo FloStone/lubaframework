@@ -4,7 +4,7 @@ namespace Luba\Commands;
 
 class clear_compiled extends Command
 {
-	public static $description = "Clear compiled views.";
+	protected static $description = "Clear compiled views.";
 
 	public function run()
 	{

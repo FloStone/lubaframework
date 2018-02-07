@@ -30,4 +30,9 @@ abstract class Luba
 	{
 		return Command::runCommand($command);
 	}
+
+	final public static function version()
+	{
+		return self::VERSION;
+	}
 }

@@ -4,7 +4,7 @@ namespace Luba\Commands;
 
 class delete_logs extends Command
 {
-	public static $description = "Delete all Luba logs.";
+	protected static $description = "Delete all Luba logs.";
 
 	public function run()
 	{

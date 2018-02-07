@@ -3,6 +3,7 @@
 namespace Luba\Framework;
 
 use Luba\Interfaces\CommandInterface;
+use Luba\Exceptions\CommandException;
 
 abstract class Command implements CommandInterface
 {
@@ -28,7 +29,7 @@ abstract class Command implements CommandInterface
 	 * Command description
 	 * @var string
 	 */
-	public static $description = "";
+	protected static $description = "";
 
 	/**
 	 * Set the command arguments
@@ -87,6 +88,14 @@ abstract class Command implements CommandInterface
 	 */
 	public function argument($index)
 	{
-		return isset(static::$arguments[$index]) ? static::$arguments[$index] : null;
+		if (isset(static::$arguments[$index]))
+			return static::$arguments[$index];
+		else
+			throw new CommandException("Argument with index $index was not found.");
+	}
+
+	public static function getDescription()
+	{
+		return static::$description;
 	}
 }

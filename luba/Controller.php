@@ -8,13 +8,6 @@ use Luba\Framework\View;
 class Controller
 {
 	/**
-	 * Allowed actions to be called by URLs
-	 *
-	 * @var array
-	 */
-	protected $actions = [];
-
-	/**
 	 * Allowed post only actions
 	 *
 	 * @var array
@@ -69,8 +62,6 @@ class Controller
 		if (array_search($action, $this->get_actions) !== false && strtolower(Request::getInstance()->method()) == 'get')
 			return true;
 		elseif (array_search($action, $this->post_actions) !== false && strtolower(Request::getInstance()->method()) == 'post')
-			return true;
-		elseif (array_search($action, $this->actions) !== false)
 			return true;
 		else
 			return false;

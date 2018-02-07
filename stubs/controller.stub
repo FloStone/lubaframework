@@ -1,0 +1,16 @@
+<?php
+
+namespace Luba\Controllers;
+
+use URL, Input, Redirect, SQL;
+
+class %name% extends Controller
+{
+	protected $get_actions = [
+
+	];
+
+	protected $post_actions = [
+
+	];
+}
