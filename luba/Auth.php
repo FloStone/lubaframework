@@ -3,7 +3,7 @@
 namespace Luba\Framework;
 
 use FloStone\MySQL\MySQLResult;
-use SQL, Config;
+use SQL, Config, Session;
 
 class Auth
 {
