@@ -91,7 +91,7 @@ abstract class Command implements CommandInterface
 		if (isset(static::$arguments[$index]))
 			return static::$arguments[$index];
 		else
-			throw new CommandException("Argument with index $index was not found.");
+			return null;
 	}
 
 	public static function getDescription()
