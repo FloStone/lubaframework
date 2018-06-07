@@ -9,9 +9,9 @@ class Log
 		if (!is_dir(base_path('storage/logs')))
 			mkdir(base_path('storage/logs'));
 
-		$name = date("Y-m-d_H-i-s") . '.log';
+		$name = date("Y-m-d") . '.log';
 
-		file_put_contents(base_path("storage/logs/$name"), $content);
+		file_put_contents(base_path("storage/logs/$name"), $content, FILE_APPEND);
 	}
 
 	public function exception($exception)

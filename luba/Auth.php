@@ -49,16 +49,15 @@ class Auth
 
 	public function loginQuery(callable $query)
 	{
-		$user = SQL::table(Config::get('AUTH_TABLE'))->select();
+		$table= SQL::table(Config::get('AUTH_TABLE'))->select();
 
-		$query($user);
+		$query($table);
 
-		$user = $user->first();
+		$user = $table->first();
 
 		if ($user)
 		{
 			Session::set('__auth_user', $user);
-
 			return true;
 		}
 
