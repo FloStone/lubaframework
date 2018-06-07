@@ -5,6 +5,7 @@ namespace Luba\Framework;
 use Luba\Form\Form;
 use Luba\Form\Label;
 use Luba\Exceptions\TokenMismatchException;
+use Session;
 
 class Validator
 {

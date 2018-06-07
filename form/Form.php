@@ -4,7 +4,8 @@ namespace Luba\Form;
 
 use Luba\Framework\View;
 use Luba\Traits\RenderAttributes;
-use Validator, Session;
+use Luba\Framework\Validator;
+use Session;
 
 class Form
 {
