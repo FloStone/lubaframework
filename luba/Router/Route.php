@@ -24,7 +24,7 @@ class Route
 
 	protected $method;
 
-	public function __construct(string $uri, string $action, string $type = null)
+	public function __construct(string $uri, $action, string $type = null)
 	{
 		$this->uri = $uri;
 		$this->action = $action;
